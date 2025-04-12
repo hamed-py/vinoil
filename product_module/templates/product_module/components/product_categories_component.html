@@ -1,0 +1,75 @@
+
+<div class="fancy-collapse-panel">
+<header>
+    <h3 class="heading text-right">دسته‌بندی محصولات</h3>
+</header>
+    <div class="category-accordion" id="main-accordion">
+        {% for category in categories %}
+            {% if not category.parent %}
+            <div class="category-item">
+                <div class="category-header" role="tab" id="heading{{ category.id }}">
+                    <h4 class="category-title d-flex justify-content-between align-items-center">
+                        <!-- لینک اصلی برای هدایت به صفحه‌ی محصولات دسته -->
+                        <a href="{% url 'product_categories_list' cat=category.url_title %}"
+                           class="category-link">
+                            {{ category.title }}
+                        </a>
+                        <!-- دکمه باز/بسته (استفاده از <button> به‌جای <a> برای عملکرد دقیق‌تر) -->
+                        <button type="button"
+                                class="toggle-btn"
+                                data-toggle="collapse"
+                                data-target="#collapse{{ category.id }}"
+                                aria-expanded="false"
+                                aria-controls="collapse{{ category.id }}">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </h4>
+                </div>
+                <!-- نمایش زیر دسته‌ها -->
+                <div id="collapse{{ category.id }}"
+                     class="category-collapse collapse"
+                     aria-labelledby="heading{{ category.id }}"
+                     data-parent="#main-accordion">
+                    <div class="subcategories-list">
+                        {% for subcategory in category.subcategories.all %}
+                            <div class="subcategory-item">
+                                <div class="subcategory-header d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'product_categories_list' cat=subcategory.url_title %}"
+                                       class="subcategory-link">
+                                        {{ subcategory.title }}
+                                    </a>
+                                    {% if subcategory.subcategories.all %}
+                                    <button type="button"
+                                            class="toggle-btn"
+                                            data-toggle="collapse"
+                                            data-target="#collapseSub{{ subcategory.id }}"
+                                            aria-expanded="false"
+                                            aria-controls="collapseSub{{ subcategory.id }}">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                                {% if subcategory.subcategories.all %}
+                                <div id="collapseSub{{ subcategory.id }}"
+                                     class="subcategory-collapse collapse"
+                                     aria-labelledby="headingSub{{ subcategory.id }}">
+                                    <div class="sub-subcategories-list">
+                                        {% for subSub in subcategory.subcategories.all %}
+                                            <a href="{% url 'product_categories_list' cat=subSub.url_title %}"
+                                               class="subsubcategory-link">
+                                                {{ subSub.title }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="category-divider"></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

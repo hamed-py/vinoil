@@ -1,0 +1,30 @@
+{% for comment in comments %}
+<div class="review" data-comment-id="{{ comment.id }}">
+    <div class="user-img" style="background-image: url({{ comment.user.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
+    <div class="desc">
+        <h4>
+            <span class="text-left">{{ comment.user.username }}</span>
+            <span class="text-right">{{ comment.created_at|date:"Y-m-d" }}</span>
+        </h4>
+        <p>{{ comment.text }}</p>
+        <p>
+            <a href="javascript:void(0);"
+               onclick="setParentId({{ comment.id }})"
+               class="reply text-primary">پاسخ</a>
+        </p>
+
+        {% for reply in comment.replies.all %}
+            <div class="review ml-5">
+                <div class="user-img" style="background-image: url({{ reply.user.profile.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
+                <div class="desc">
+                    <h5>
+                        <span class="text-left">{{ reply.user.username }}</span>
+                        <span class="text-right">{{ reply.created_at|date:"Y-m-d" }}</span>
+                    </h5>
+                    <p>{{ reply.text }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}

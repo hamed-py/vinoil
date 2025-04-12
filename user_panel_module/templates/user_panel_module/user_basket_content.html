@@ -1,0 +1,107 @@
+{% load poll_extras %}
+{% if order.orderitem_set.all %}
+    <section class="ftco-section ftco-cart" dir="rtl">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 ftco-animate fadeInUp ftco-animated">
+                    <div class="cart-list">
+                        <table class="table">
+                            <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>محصول</th>
+                                <th>قیمت</th>
+                                <th>تعداد</th>
+                                <th>جمع</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in order.orderitem_set.all %}
+                                <tr class="text-center">
+                                    <td class="product-remove"><a
+                                            onclick="removeOrderDetail({{ order.id }})"><span
+                                            class="ion-ios-close"></span></a></td>
+
+                                    <td class="image-prod">
+                                        <div class="img"
+                                             style="background-image:url('{{ order.product.image.url }}');"></div>
+                                    </td>
+
+                                    <td class="product-name">
+                                        <h3>
+                                            <a href="{% url 'product_detail' slug=order.product.slug %}">{{ order.product.title }}</a>
+                                        </h3>
+                                        <p>{{ order.product.shor_description }}</p>
+                                    </td>
+                                    <td class="price">{{ order.product.price | three_digits_currency }}</td>
+
+                                    <td class="quantity">
+                                        <div class="input-group mb-3">
+                                            <!-- دکمه کاهش -->
+                                            <span class="input-group-btn mr-2">
+                                                 <button type="button"
+                                                         class="quantity-left-minus btn btn-outline-secondary"
+                                                         data-type="minus" data-detail-id="{{ order.id }}"
+                                                         onclick="changeOrderDetailCount('{{ order.id }}', 'minus');">
+                                                      <i class="ion-ios-remove"></i>
+                                                   </button>
+                                            </span>
+
+                                            <!-- فیلد ورودی -->
+                                            <input type="text" name="quantity"
+                                                   class="quantity form-control input-number text-center"
+                                                   value="{{ order.quantity }}" min="1" max="100"
+                                                   onchange="updateOrderQuantity('{{ order.id }}', this.value)">
+                                            <!-- دکمه افزایش -->
+                                            <span class="input-group-btn ml-2">
+                                                  <button type="button"
+                                                          class="quantity-right-plus btn btn-outline-secondary"
+                                                          data-type="plus" data-detail-id="{{ order.id }}"
+                                                          onclick="changeOrderDetailCount('{{ order.id }}', 'plus');">
+                                                       <i class="ion-ios-add"></i>
+                                                  </button>
+                                             </span>
+                                        </div>
+                                    </td>
+                                    <td class="total">{% multiplay order.quantity order.product.price %}</td>
+                                </tr><!-- END TR-->
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-start">
+                <div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate fadeInUp ftco-animated">
+                    <div class="cart-total mb-3 rtl-text bg-light shadow rounded border border-light">
+                        <h3>صورتحساب</h3>
+                        <p class="d-flex">
+                            <span>مجموع قیمت محصولات</span>
+                            <span>{{ sum | three_digits_currency }}</span>
+                        </p>
+                        <p class="d-flex">
+                            <span>هزینه ارسال</span>
+                            <span>$0.00</span>
+                        </p>
+                        <hr>
+                        <p class="d-flex total-price">
+                            <span>جمع کل</span>
+                            <span>{{ sum | three_digits_currency }}</span>
+                        </p>
+                    </div>
+                    <p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">نهایی کردن
+                        سفارش</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% else %}
+    <div class="custom-alert col-md-8 col-lg-5 mx-auto text-center alert alert-danger alert-dismissible fade show">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>هیچ محصولی در سبد خرید شما موجود نیست</p>
+    </div>
+
+{% endif %}

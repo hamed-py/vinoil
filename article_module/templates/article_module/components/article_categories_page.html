@@ -1,0 +1,59 @@
+<h3 class="heading">
+  <a href="{% url 'articles_list' %}">دسته بندی مقالات</a>
+</h3>
+<ul class="categories">
+  {% for main_category in main_categories %}
+    <li>
+      {% if main_category.articlecategory_set.all %}
+        <!-- دسته‌بندی والد: کلیک فقط زیر دسته‌ها را باز می‌کند -->
+        <a href="javascript:void(0);" data-toggle="collapse" data-target="#collapse-{{ main_category.id }}" aria-expanded="false">
+          {{ main_category.title }} <span>(12)</span>
+        </a>
+        <div id="collapse-{{ main_category.id }}" class="collapse">
+          <div class="panel-body">
+            <ul>
+              {% if main_category.articles.all %}
+                <li>
+                  <a href="{% url 'articles_by_category_list' category=main_category.url_title %}">
+                    همه مقالات {{ main_category.title }}
+                  </a>
+                </li>
+              {% endif %}
+              {% for sub_category in main_category.articlecategory_set.all %}
+                <li>
+                  {% if sub_category.articlecategory_set.all %}
+                    <!-- زیر دسته‌ای که خودش زیر دسته دارد -->
+                    <a href="javascript:void(0);" data-toggle="collapse" data-target="#collapse-{{ sub_category.id }}" aria-expanded="false">
+                      {{ sub_category.title }}
+                    </a>
+                    <div id="collapse-{{ sub_category.id }}" class="collapse">
+                      <ul>
+                        {% for sub_sub_category in sub_category.articlecategory_set.all %}
+                          <li>
+                            <a href="{% url 'articles_by_category_list' category=sub_sub_category.url_title %}">
+                              {{ sub_sub_category.title }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% else %}
+                    <!-- زیر دسته‌ای که زیر دسته ندارد -->
+                    <a href="{% url 'articles_by_category_list' category=sub_category.url_title %}">
+                      {{ sub_category.title }}
+                    </a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% else %}
+        <!-- دسته‌بندی بدون زیر دسته -->
+        <a href="{% url 'articles_by_category_list' category=main_category.url_title %}">
+          {{ main_category.title }}
+        </a>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

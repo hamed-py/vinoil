@@ -1,0 +1,40 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}ثبت نام{% endblock %}
+
+{% block content %}
+    <section class="container forms">
+        <!-- Signup Form -->
+        <div class="form signup">
+            <div class="form-content">
+                <header> ثبت نام</header>
+                <form method="post" action="{% url 'register_page' %}">
+                    {% csrf_token %}
+                    <div class="field input-field">
+                        {{ register_form.email }}
+                        {{ register_form.email.errors }}
+                    </div>
+                    <div class="field input-field">
+                        {{ register_form.password }}
+                    </div>
+                    <div class="field input-field">
+                        {{ register_form.confirm_password }}
+                        {{ register_form.confirm_password.errors }}
+                    </div>
+                    <div class="field button-field">
+                        <button>ثبت نام</button>
+                    </div>
+                </form>
+                <div class="form-link">
+                    <span>آیا حساب کاربری دارید؟ <a href="{% url 'login_page' %}" class="link login-link">ورود</a></span>
+                </div>
+            </div>
+            <div class="line"></div>
+            <div class="media-options">
+                <a href="#" class="field google">
+                    <img src="/static/images/google.png" alt="" class="google-img">
+                    <span> ثبت نام با گوگل </span>
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

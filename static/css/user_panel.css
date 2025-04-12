@@ -1,0 +1,103 @@
+
+/* تنظیمات کلی کانتینر پنل */
+.container.panel {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* استایل هدر پنل */
+.panel-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.panel-header header {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #4a90e2;
+  margin-bottom: 6px;
+}
+
+/* استایل منوی ناوبری */
+.panel-nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 30px;
+}
+
+.panel-nav ul li {
+  margin: 0 15px;
+}
+
+.panel-nav ul li a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: #555;
+  padding: 10px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.panel-nav ul li a:hover,
+.panel-nav ul li a.active {
+  color: #4a90e2;
+  border-bottom: 2px solid #4a90e2;
+}
+
+/* استایل محتوای پنل */
+.panel-content {
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* استایل بخش خوش‌آمدگویی */
+.welcome-box {
+  text-align: center;
+  margin-top:5px;
+}
+
+.welcome-box h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.welcome-box p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* استایل رسپانسیو */
+@media (max-width: 768px) {
+  .panel-nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .panel-nav ul li {
+    margin: 10px 0;
+  }
+}
+.rtl-panel {
+  direction: rtl;
+  text-align: right;
+}
+.panel-container {
+  margin-top: 40px; /* مقدار دلخواه برای فاصله */
+}
+.panel-group {
+  margin-top: 10px; /* کاهش فاصله از بالا */
+  margin-bottom: 10px; /* کاهش فاصله از پایین */
+}
+
+.panel {
+  margin-bottom: 8px; /* کاهش فاصله بین پنل‌های دسته‌بندی */
+  padding: 5px; /* کاهش فضای داخلی پنل */
+}
+
+.panel-heading {
+  padding: 5px 10px; /* کاهش فاصله داخلی عنوان هر دسته */
+}

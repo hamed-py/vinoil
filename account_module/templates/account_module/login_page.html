@@ -1,0 +1,40 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}ورود به سایت{% endblock %}
+
+{% block content %}
+    <section class="container forms">
+        <div class="form login">
+            <div class="form-content">
+                <header>ورود</header>
+                <form method="post" action="{% url 'login_page' %}">
+                    {% csrf_token %}
+                    <div class="field input-field ">
+                        {{ login_form.email }}
+                        {{ login_form.email.errors }}
+                    </div>
+                    <div class="field input-field">
+                        {{ login_form.password }}
+                        {{ login_form.password.errors }}
+                    </div>
+                    <p><a href="{% url 'forget_password_page' %}">بازیابی رمز عبور</a></p>
+                    <div class="field button-field">
+                        <button>ورود</button>
+                    </div>
+                </form>
+                <div class="form-link">
+                    <span>آیا حساب کاربری دارید؟ <a href="{% url 'register_page' %}"
+                                                    class="link signup-link">ثبت نام</a></span>
+                </div>
+            </div>
+
+            <div class="line"></div>
+            <div class="media-options">
+                <a href="#" class="field google">
+                    <img src="/static/images/google.png" alt="" class="google-img">
+                    <span>ورود با گوگل</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,14 @@
+<div class="brand-filter-panel">
+    <header class="panel-heading">
+        <h4 class="panel-title text-right">فیلتر بر اساس برند</h4>
+    </header>
+    <ul class="brand-list">
+        {% for brand in brands %}
+            <li class="brand-item">
+                <a href="{% url 'product_list_by_brand' brand=brand.url_title %}">
+                    {{ brand.title }} <span class="product-count">({{ brand.products_count }})</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

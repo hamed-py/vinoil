@@ -1,0 +1,122 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% block title %}لیست مقالات{% endblock %}
+{% block content %}
+    <section class="ftco-section ftco-degree-bg" dir="rtl">
+        <div class="container">
+            <div class="row">
+                <main class="col-lg-8 order-lg-last ftco-animate fadeInUp ftco-animated">
+                    <div class="row">
+                        {% for article in article_list %}
+                            <article class="col-md-12 d-flex ftco-animate fadeInUp ftco-animated">
+                                <div class="border rounded p-3">
+                                    <div class="blog-entry align-self-stretch d-md-flex">
+                                        <a href="{% url 'article_detail' pk=article.pk %}" class="block-20"
+                                           style="background-image: url('{{ article.image.url }}');"
+                                           aria-label="تصویر مقاله: {{ article.title }}">
+                                        </a>
+                                        <div class="text d-block pl-md-4">
+                                            <div class="meta mb-3 text-right">
+                                                <time datetime="{{ article.created_at|date:'c' }}">
+                                                    <a href="#"><span
+                                                            class="icon-calendar"></span> {{ article.created_at|date:"Y-m-d H:i" }}
+                                                    </a>
+                                                </time>
+                                                <div class="text-right">
+                                                    {% if article.author is not None %}
+                                                        <i class="icon-user" aria-hidden="true"></i>
+                                                        <a href="#">{{ article.author }}</a>
+                                                    {% endif %}
+                                                </div>
+                                                <hr class="my-0">
+                                            </div>
+                                            <h3 class="heading text-right">
+                                                <a href="{% url 'article_detail' pk=article.pk %}">{{ article.title }}</a>
+                                            </h3>
+                                            <p class="text-right">{{ article.short_description }}</p>
+                                            <p class="text-right">
+                                                <a href="{% url 'article_detail' pk=article.pk %}"
+                                                   class="btn btn-primary py-2 px-3">
+                                                    ادامه مطلب
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+
+                        {% endfor %}
+                    </div>
+                    <nav aria-label="صفحه بندی" class="row mt-2">
+                        <div class="col">
+                            <ul class="pagination block-27">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">قبلی</a>
+                                    </li>
+                                {% endif %}
+                                {% for pageNumber in paginator.page_range %}
+                                    <li class="page-item {% if page_obj.number == pageNumber %}active{% endif %}">
+                                        <a class="page-link" href="?page={{ pageNumber }}">{{ pageNumber }}</a>
+                                    </li>
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">بعدی</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </nav>
+                </main>
+                <aside class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">
+                    <div class="sidebar-box">
+                        <form action="#" class="search-form" role="search">
+                            <div class="form-group">
+                                <label for="search-input" class="sr-only">جستجو</label>
+                                <span class="icon ion-ios-search" aria-hidden="true"></span>
+                                <input type="text" id="search-input" class="form-control" placeholder="جستجو">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+                        {% render_partial 'article_module.views.article_categories_component' %}
+                    </div>
+                    <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+                        <h3 class="heading text-right">مقالات اخیر</h3>
+                        {% for recent_blog in recent_blogs %}
+                            <article class="block-21 mb-4 d-flex">
+                                <a href="{% url 'article_detail' recent_blog.pk %}" class="blog-img mr-4"
+                                   style="background-image: url('{{ recent_blog.image.url }}');"
+                                   aria-label="تصویر مقاله: {{ recent_blog.title }}">
+                                </a>
+                                <div class="text">
+                                    <h3 class="heading-1 text-right">
+                                        <a href="{% url 'article_detail' recent_blog.pk %}">{{ recent_blog.title }}</a>
+                                    </h3>
+                                    <div class="meta text-right">
+                                        <time datetime="{{ recent_blog.created_at|date:'c' }}">
+                                            <a href="#"><span
+                                                    class="icon-calendar"></span> {{ recent_blog.created_at|date:"Y-m-d H:i" }}
+                                            </a>
+                                        </time>
+                                        <div>
+                                            <a href="#"><span class="icon-person"></span> {{ recent_blog.author }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <hr>
+
+                        {% endfor %}
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+

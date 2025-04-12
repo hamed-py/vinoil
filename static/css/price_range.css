@@ -1,0 +1,113 @@
+#price-filter-form {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+    direction: rtl;
+}
+
+.filter-title {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: right;
+}
+
+
+.slider-track {
+    position: absolute;
+    height: 6px;
+    background-color: #e0e0e0;
+    width: calc(100% - 20px);
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+#priceRange {
+    position: relative;
+    width: calc(100% - 20px);
+    height: 6px;
+    -webkit-appearance: none;
+    background: transparent;
+    z-index: 2;
+    margin: 15px 0;
+    direction: ltr;
+}
+
+#priceRange::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #3498db;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* استایل جدید برای کادرهای ورودی بالا و پایین */
+.price-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.price-inputs input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.95rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    direction: ltr;
+}
+
+.price-inputs input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* استایل نمایش قیمت */
+.price-display-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.price-display {
+    font-size: 0.9rem;
+    color: #555;
+    background: #f1f1f1;
+    padding: 5px 12px;
+    border-radius: 15px;
+}
+
+#price-filter-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+#price-filter-form button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+

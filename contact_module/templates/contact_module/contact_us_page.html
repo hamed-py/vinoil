@@ -1,0 +1,136 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+    تماس با ما
+{% endblock %}
+{% block content %}
+    <section class="ftco-section contact-section bg-light">
+        <div class="container">
+            <div class="row d-flex mb-5 contact-info">
+                <div class="w-100"></div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>آدرس:</span> {{ site_setting.addres }}</p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>Phone:</span> <a href="tel:+989197310984">{{ site_setting.phone.title }}</a></p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>Website</span> <a href="#">yoursite.com</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row block-9">
+                <div class="col-md-6 order-md-last d-flex">
+                    <form action="{% url 'contact_us_page' %}" class="bg-white p-5 contact-form" method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group">
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <button type="submit" value="ارسال پیام " class="btn btn-primary py-3 px-5">
+                                ارسال پیام
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+
+               <div class="col-lg-5 mb-5">
+            <div class="bg-light p-30 mb-30">
+                <iframe style="width: 100%; height: 250px;"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093644!2d50.9029667!3d35.8200488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDQ5JzE3LjgiTiA1MMKwNTQnMTIuNyJF!5e0!3m2!1sen!2us!4v1700000000000"
+                        frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+            <div class="bg-light p-30 mb-3">
+                <p class="mb-2">
+                    <i class="fa fa-map-marker-alt text-primary mr-3"></i>
+                    {{ site_setting.addres }}
+                </p>
+                <p class="mb-2">
+                    <i class="fa fa-envelope text-primary mr-3"></i>
+                    {{ site_setting.email }}
+                </p>
+                <p class="mb-2">
+                    <i class="fa fa-phone-alt text-primary mr-3"></i>
+                    {{ site_setting.phone }}
+                </p>
+            </div>
+        </div>
+            </div>
+        </div>
+    </section>
+    <section class="ftco-gallery ftco-section ftco-no-pb">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 heading-section text-center mb-4 ftco-animate fadeInUp ftco-animated">
+                    <h2 class="mb-4">Follow Us On Instagram</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there
+                        live the blind texts. Separated they live in</p>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid px-0">
+            <div class="row no-gutters">
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-1.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-2.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-3.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-4.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-5.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-5.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-6.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-6.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% block title %}
+    ویرایش اطلاعات کاربری
+{% endblock %}
+{% block content %}
+    <section class="container panel rtl-panel">
+        <div class="panel-header">
+            <header>ویرایش اطلاعات کاربری</header>
+        </div>
+        <div class="panel-nav">
+            {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+        </div>
+        <div class="panel-content">
+            <div class="welcome-box">
+                <a class="img-thumbnail">
+                    {% if current_user.avatar %}
+                        <img width="25%" src="{{ current_user.avatar.url }}" alt="">
+                    {% endif %}
+                </a>
+                <form class="user-profile-form" action="{% url 'edit_user_profile' %}" method="POST"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-columns">
+                        <div class="form-column">
+                            <!-- ستون اول: نام، ایمیل و درباره من -->
+                            <p>{{ form.first_name.label_tag }} {{ form.first_name }}</p>
+                            <p>{{ form.email.label_tag }} {{ form.email }}</p>
+                            <p>{{ form.about_user.label_tag }} {{ form.about_user }}</p>
+                        </div>
+                        <div class="form-column">
+                            <!-- ستون دوم: نام خانوادگی، موبایل و آدرس -->
+                            <p>{{ form.last_name.label_tag }} {{ form.last_name }}</p>
+                            <p>{{ form.mobile.label_tag }} {{ form.mobile }}</p>
+                            <p>{{ form.address.label_tag }} {{ form.address }}</p>
+                        </div>
+                    </div>
+                    <p>
+                        <label for="id_avatar">تصویر پروفایل</label>
+                        <span>فعلی:</span>
+                        <a href="/media/users/users_profile/فلومکس_sgofllF.webp">users/users_profile/فلومکس_sgofllF.webp</a>
+                        <br>
+                        <span>تغییر:</span>
+                        <input type="file" name="avatar" accept="image/*" id="id_avatar">
+                    </p>
+                    <button type="submit" class="btn btn-submit">ذخیره تغییرات</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

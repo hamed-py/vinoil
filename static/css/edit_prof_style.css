@@ -1,0 +1,124 @@
+/* تنظیمات فرم */
+form {
+  width: 100%;
+  max-width: 800px; /* افزایش عرض فرم برای جا دادن دو ستون کنار هم */
+  margin: 0 auto;
+}
+
+/* تنظیمات ستون‌ها */
+.form-columns {
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap; /* جلوگیری از شکست ستون‌ها به خط جدید */
+}
+
+.form-column {
+  flex: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px;
+}
+
+.panel {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.panel-header {
+  background: #dbcc8f;
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 50px;
+}
+
+.panel-nav {
+  background: #ecf0f1;
+  padding: 15px;
+}
+
+.panel-content {
+  padding: 20px;
+}
+
+.welcome-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-box .img-thumbnail {
+  display: block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.welcome-box .img-thumbnail img {
+  width: 100%;
+  height: auto;
+}
+
+form p {
+  margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="file"] {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f5f5f5;
+  margin-top: 5px;
+}
+
+/* استایل برای تکست‌ایریا با اندازه ثابت و بدون قابلیت تغییر اندازه */
+form textarea[name="about_user"],
+form textarea[name="address"] {
+  width: 100%;
+  height: 100px; /* ارتفاع ثابت دلخواه */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f5f5f5;
+  margin-top: 5px;
+  resize: none; /* غیر فعال کردن قابلیت تغییر اندازه */
+}
+
+form button.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: #27ae60;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 10px;
+}
+
+form button.btn-submit:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* در صورت نیاز به رسپانسیو شدن در موبایل می‌توانید این مدیا کوئری را اضافه کنید */
+@media (max-width: 600px) {
+  .form-columns {
+    flex-wrap: wrap;
+  }
+}
+
+

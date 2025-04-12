@@ -1,0 +1,177 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% load poll_extras %}
+{% load thumbnail %}
+{% block title %}
+    جزییات مقاله
+{% endblock %}
+
+{% block content %}
+    <section class="ftco-section ftco-degree-bg rtl">
+        <div class="container">
+            <div class="row">
+                <!-- بخش اصلی مقاله -->
+                <div class="col-lg-8 ftco-animate fadeInUp ftco-animated">
+                    <header class="mb-4">
+                        <h2 class="mb-3">{{ article.title }}</h2>
+                        <div class="meta text-muted">
+                        <span class="mr-3">
+                            <i class="icon-calendar"></i> {{ article.created_at|date:"Y-m-d H:i" }}
+                        </span>
+                            {% if article.author %}
+                                <span>
+                            <i class="icon-user"></i> {{ article.author }}
+                        </span>
+                            {% endif %}
+                        </div>
+                    </header>
+
+                    {% if article.image %}
+                        {% thumbnail article.image "400x350" crop="center" quality=100 as thumb %}
+                            <img src="{{ thumb.url }}" alt="{{ article.title }}" class="img-fluid my-4">
+                        {% endthumbnail %}
+                    {% endif %}
+
+                    <p class="lead">{{ article.short_description }}</p>
+                    <hr class="my-4">
+                    <div class="article-content mb-5">
+                        {{ article.text|safe }}
+                    </div>
+                    <!-- بخش نظرات -->
+                    <div class="pt-5">
+                        <h3 class="mb-5">نظرات ({{ comments_count }})</h3>
+
+                        <!-- بخش نمایش نظرات -->
+                        <div id="comments_container">
+                            <ul class="comment-list list-unstyled">
+                                {% for comment in comments %}
+                                    <li class="comment mb-4" id="comment-{{ comment.id }}">
+                                        <div class="d-flex">
+                                            <div class="vcard mr-3">
+                                                {% if comment.user.avatar %}
+                                                    <img src="{{ comment.user.avatar.url }}" alt="{{ comment.user }}"
+                                                         class="img-fluid rounded-circle" style="max-width:50px;">
+                                                {% else %}
+                                                    <img src="/static/images/product-2.jpg" alt="{{ comment.user }}"
+                                                         class="img-fluid rounded-circle" style="max-width:50px;">
+                                                {% endif %}
+                                            </div>
+                                            <div class="comment-body">
+                                                <h5 class="mb-1">{{ comment.user }}</h5>
+                                                <div class="meta text-muted mb-2">{{ comment.created_at|date:"Y-m-d H:i" }}</div>
+                                                <p>{{ comment.text }}</p>
+                                                <p>
+                                                    <a href="javascript:void(0);"
+                                                       onclick="fillParentId({{ comment.id }})"
+                                                       class="reply text-primary">پاسخ</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- زیرنظرات -->
+                                        {% for sub_comment in comment.articlecomment_set.all %}
+                                            <div class="ml-5 mt-3 border-left pl-3" id="comment-{{ sub_comment.id }}">
+                                                <div class="d-flex">
+                                                    <div class="vcard mr-3">
+                                                        {% if sub_comment.user.avatar %}
+                                                            <img src="{{ sub_comment.user.avatar.url }}"
+                                                                 alt="{{ sub_comment.user }}"
+                                                                 class="img-fluid rounded-circle"
+                                                                 style="max-width:50px;">
+                                                        {% else %}
+                                                            <img src="/static/images/person_1.jpg"
+                                                                 alt="{{ sub_comment.user }}"
+                                                                 class="img-fluid rounded-circle"
+                                                                 style="max-width:50px;">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="comment-body">
+                                                        <h5 class="mb-1">{{ sub_comment.user }}</h5>
+                                                        <div class="meta text-muted mb-2">{{ sub_comment.create_date|date:"Y-m-d H:i" }}</div>
+                                                        <p>{{ sub_comment.text }}</p>
+                                                        <p>
+                                                            <a href="javascript:void(0);"
+                                                               onclick="fillParentId({{ comment.id }})"
+                                                               class="reply text-primary">پاسخ</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- فرم ارسال نظر -->
+                        {% if request.user.is_authenticated %}
+                            <div class="comment-form-wrap pt-5" id="comment_form">
+                                <h3 class="mb-5">نظر خود را بنویسید</h3>
+                                <div class="card p-4 bg-light">
+                                    <form id="articleCommentForm" action="{% url 'add_article_comment' %}"
+                                          method="post">
+                                        {% csrf_token %}
+                                        <!-- فیلدهای مخفی برای نگهداری شناسه مقاله و کامنت والد -->
+                                        <input type="hidden" name="article_id" value="{{ article.pk }}">
+                                        <input type="hidden" id="parent_id" name="parent_id" value="">
+
+                                        <div class="form-group">
+                                            <label for="commentText">متن پیام</label>
+                                            <textarea id="commentText" name="article_comment" cols="30" rows="5"
+                                                      class="form-control" placeholder="نظر خود را بنویسید"></textarea>
+                                        </div>
+                                        <div class="form-group mt-3">
+                                            <button type="submit" class="btn btn-primary py-3 px-4">ارسال نظر</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">
+                                برای درج نظر می‌بایست <a href="{% url 'login_page' %}">وارد</a> شوید.
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <!-- پایان بخش اصلی مقاله -->
+
+                <!-- سایدبار -->
+                <div class="col-lg-4 sidebar ftco-animate fadeInUp ftco-animated">
+                    <!-- فرم جستجو -->
+                    <!-- دسته‌بندی مقالات -->
+                    <div class="sidebar-box">
+                        {% render_partial 'article_module.views.article_categories_component' %}
+                    </div>
+                    <!-- مقالات اخیر -->
+                    <div class="sidebar-box">
+                        <h3 class="heading">مقالات اخیر</h3>
+                        {% for recent_blog in recent_blogs %}
+                            <article class="block-21 mb-4 d-flex">
+                                <a href="{% url 'article_detail' recent_blog.pk %}" class="blog-img mr-4"
+                                   style="background-image: url('{{ recent_blog.image.url }}');"
+                                   aria-label="تصویر مقاله: {{ recent_blog.title }}"></a>
+                                <div class="text">
+                                    <h3 class="heading-1 text-right">
+                                        <a href="{% url 'article_detail' recent_blog.pk %}">{{ recent_blog.title }}</a>
+                                    </h3>
+                                    <div class="meta text-right">
+                                        <time datetime="{{ recent_blog.created_at|date:'c' }}">
+                                            <a href="#"><span
+                                                    class="icon-calendar"></span> {{ recent_blog.created_at|date:"Y-m-d H:i" }}
+                                            </a>
+                                        </time>
+                                        <div>
+                                            <a href="#"><span class="icon-person"></span> {{ recent_blog.author }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+                <!-- پایان سایدبار -->
+            </div>
+        </div>
+    </section>
+{% endblock %}

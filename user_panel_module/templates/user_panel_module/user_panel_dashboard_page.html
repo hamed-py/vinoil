@@ -1,0 +1,25 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% block title %}
+    پنل کاربری
+{% endblock %}
+{% block content %}
+   <section class="container">
+  <div class="panel-container">
+    <div class="panel-header">
+      <header>پنل کاربری</header>
+      <p>سلام، {{ user.first_name }} {{ user.last_name }}! خوش آمدید.</p>
+    </div>
+    <div class="panel-nav">
+      {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+    </div>
+    <div class="panel-content">
+      <div class="welcome-box">
+        <h2>به داشبورد خود خوش آمدید</h2>
+        <p>اینجا می‌توانید فعالیت‌های اخیر خود را مشاهده کنید و به بخش‌های مختلف حساب کاربری دسترسی داشته باشید.</p>
+      </div>
+      <!-- بخش‌های دلخواه خود را اینجا اضافه کنید -->
+    </div>
+  </div>
+</section>
+{% endblock %}

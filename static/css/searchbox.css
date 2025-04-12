@@ -1,0 +1,113 @@
+.search-section {
+    direction: rtl;
+    text-align: right;
+    position: relative;
+    padding: 3rem 0;
+    background: #f9f9f9;
+    border-bottom: 1px solid #eee;
+}
+
+.search-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.modern-search-form {
+    padding: 2rem 15px;
+    background: white;
+    text-align: center;
+}
+
+.search-header {
+    margin-bottom: 1.5rem;
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, #2c3e50, #27ae60);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 2rem;
+}
+
+.search-input-group {
+    max-width: 800px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 1rem 3rem 1rem 1.5rem;
+    border: 2px solid #e9ecef;
+    border-radius: 30px;
+    font-size: 1rem;
+}
+
+.search-submit {
+    position: absolute;
+    left: auto !important;
+    right: 15px !important;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #27ae60;
+    font-size: 1.2rem;
+}
+
+.search-tags-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-tags {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    direction: rtl;
+    flex-wrap: nowrap;
+    flex-direction: row-reverse;
+    width: 100%;
+}
+
+.tags-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    order: 1; /* انتقال لیبل به انتهای سمت راست */
+    margin-right: 0;
+    margin-left: 1rem;
+}
+
+.tags-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    flex-direction: row-reverse;
+    justify-content: flex-start; /* تغییر از flex-end به flex-start */
+    flex-grow: 1; /* اضافه شده */
+}
+
+.tag {
+    padding: 0.4rem 1rem;
+    background: #f8f9fa;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+    .search-tags {
+        justify-content: flex-start;
+        padding-right: 15px; /* اضافه شده */
+        padding-left: 15px; /* اضافه شده */
+        flex-wrap: nowrap;
+    }
+
+    .tags-wrapper {
+        max-width: calc(100% - 120px); /* تنظیم جدید */
+        flex-wrap: nowrap;
+    }
+}

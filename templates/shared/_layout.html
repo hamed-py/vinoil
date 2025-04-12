@@ -1,0 +1,29 @@
+{% load render_partial %}
+<!DOCTYPE html>
+<html lang="fa" >
+<head>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% include 'shared/header_ref.html' %}
+
+</head>
+<body class="goto-here">
+{% render_partial 'home_module.views.site_header_component' %}
+
+{% block content %}
+
+{% endblock %}
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen">
+    <svg class="circular" width="48px" height="48px">
+        <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"></circle>
+        <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+                stroke="#F96D00"></circle>
+    </svg>
+</div>
+{% render_partial 'home_module.views.site_footer_component' %}
+{% include 'shared/footer_ref.html' %}
+
+</body>
+</html>

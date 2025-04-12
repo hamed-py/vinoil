@@ -1,0 +1,224 @@
+{% extends 'shared/_layout.html' %}
+{% load poll_extras %}
+{% load static %}
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+{% block content %}
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 ftco-animate fadeInUp ftco-animated">
+                    <a href="{{ product.image.url }}" class="image-popup prod-img-bg"><img src="{{ product.image.url }}"
+                                                                                           class="img-fluid"
+                                                                                           alt="Colorlib Template"></a>
+                </div>
+                <div class="col-lg-6 product-details pl-md-5 ftco-animate fadeInUp ftco-animated">
+                    <h3>{{ product.title }}</h3>
+                    <div class="rating d-flex">
+                        <p class="text-left mr-4">
+                            <a href="#" class="mr-2">5.0</a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        </p>
+                        <p class="text-left mr-4">
+                            <a href="#" class="mr-2" style="color: #000;">100 <span
+                                    style="color: #bbb;">Rating</span></a>
+                        </p>
+                        <p class="text-left">
+                            <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
+                        </p>
+                    </div>
+                    <p class="price"><span>{{ product.price | three_digits_currency }}</span></p>
+                    <p>{{ product.short_description }}</p>
+                    <p>{{ product.description }}
+                    </p>
+                    <form id="orderForm" class="text-right">
+                        <script>
+                            var addProductUrl = "/order/add-to-order";
+                            var productId = "1";
+                        </script>
+                        <input type="hidden" name="csrfmiddlewaretoken"
+                               value="gDChddXQsempajMMhkdg91qw4FksUjksbJYVFYmhr3s1Hb5HS25LenViBNAVPG1W">
+                        <input type="hidden" name="product_id" id="product_id" value="1">
+                        <div class="form-group">
+                            <label for="quantity" class="d-block text-dark mb-2">تعداد</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="btn btn-outline-secondary quantity-left-minus">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                                <input type="number" id="quantity" name="quantity" class="form-control text-center"
+                                       value="1" min="1" max="100">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary quantity-right-plus">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <p class="text-success mb-0">
+                                <i class="fas fa-check-circle"></i>
+                                موجود در انبار
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="button" id="addToCartBtn" class="btn btn-warning btn-block py-3 mb-2">افزودن
+                                به سبد خرید
+                            </button>
+                            <a href="#" class="btn btn-primary btn-block py-3">خرید </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-12 nav-link-wrap">
+                    <div class="nav nav-pills d-flex text-center" id="v-pills-tab" role="tablist"
+                         aria-orientation="vertical">
+                        <a class="nav-link ftco-animate mr-lg-1 fadeInUp ftco-animated" id="v-pills-1-tab"
+                           data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1"
+                           aria-selected="false">توضیحات</a>
+
+                        <a class="nav-link ftco-animate mr-lg-1 fadeInUp ftco-animated" id="v-pills-2-tab"
+                           data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2"
+                           aria-selected="false">جزییات محصول</a>
+
+                        <a class="nav-link ftco-animate fadeInUp ftco-animated active" id="v-pills-3-tab"
+                           data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3"
+                           aria-selected="true">نظرات</a>
+
+                    </div>
+                </div>
+                <div class="col-md-12 tab-wrap">
+
+                    <div class="tab-content bg-light" id="v-pills-tabContent">
+
+                        <div class="tab-pane fade" id="v-pills-1" role="tabpanel" aria-labelledby="day-1-tab">
+                            <div class="p-4">
+                                <h3 class="mb-4">Nike Free RN 2019 iD</h3>
+                                <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came
+                                    from it would have been rewritten a thousand times and everything that was left from
+                                    its origin would be the word "and" and the Little Blind Text should turn around and
+                                    return to its own, safe country. But nothing the copy said could convince her and so
+                                    it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk
+                                    with Longe and Parole and dragged her into their agency, where they abused her for
+                                    their.</p>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-day-2-tab">
+                            <div class="p-4">
+                                <h3 class="mb-4">Manufactured By Nike</h3>
+                                <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came
+                                    from it would have been rewritten a thousand times and everything that was left from
+                                    its origin would be the word "and" and the Little Blind Text should turn around and
+                                    return to its own, safe country. But nothing the copy said could convince her and so
+                                    it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk
+                                    with Longe and Parole and dragged her into their agency, where they abused her for
+                                    their.</p>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade active show" id="v-pills-3" role="tabpanel"
+                             aria-labelledby="v-pills-day-3-tab">
+                            <div class="row p-4" id="comments_container">
+                                <div class="col-12">
+                                    <h3 class="mb-4">({{ comments.count }}) نظرات</h3>
+                                    <div id="comments_list">
+                                        {% for comment in comments %}
+                                            <div class="review mb-4" data-comment-id="{{ comment.id }}">
+                                                <div class="user-img"
+                                                     style="background-image: url({{ comment.user.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
+                                                <div class="desc">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <h5 class="mb-0">{{ comment.user.username }}</h5>
+                                                        <small class="text-muted">{{ comment.created_at|date:"Y-m-d H:i" }}</small>
+                                                    </div>
+                                                    <p class="mt-2">{{ comment.text }}</p>
+
+                                                    <!-- دکمه پاسخ -->
+                                                    <button onclick="setParentId({{ comment.id }})"
+                                                            class="btn btn-sm btn-outline-primary">
+                                                        <i class="fas fa-reply"></i> پاسخ
+                                                    </button>
+
+                                                    <!-- پاسخ‌ها -->
+                                                    <div class="replies mt-3 ms-5">
+                                                        {% for reply in comment.replies.all %}
+                                                            <div class="review reply-item mb-3">
+                                                                <div class="user-img"
+                                                                     style="background-image: url({{ reply.user.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
+                                                                <div class="desc">
+                                                                    <div class="d-flex justify-content-between align-items-center">
+                                                                        <h6 class="mb-0">{{ reply.user.username }}</h6>
+                                                                        <small class="text-muted">{{ reply.created_at|date:"Y-m-d H:i" }}</small>
+                                                                    </div>
+                                                                    <p class="mt-2">{{ reply.text }}</p>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    <!-- بخش فرم ارسال نظر -->
+                                    <div class="card mt-5" id="comment_form_section">
+                                        <div class="card-body">
+                                            {% if user.is_authenticated %}
+                                                <h4 class="mb-4">ارسال نظر</h4>
+                                                <form id="productCommentForm" action="{% url 'add_product_comment' %}"
+                                                      method="POST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                                    <input type="hidden" id="parentId" name="parent_id" value="">
+
+                                                    <div class="form-group">
+                                                              <textarea
+                                                                      id="commentText"
+                                                                      name="text"
+                                                                      class="form-control"
+                                                                      rows="4"
+                                                                      placeholder="متن نظر خود را اینجا بنویسید..."
+                                                                      required></textarea>
+
+                                                    </div>
+
+                                                    <div class="mt-3">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="fas fa-paper-plane"></i> ارسال نظر
+                                                        </button>
+                                                        <button type="button" onclick="clearParentId()"
+                                                                class="btn btn-outline-secondary" id="cancelReplyBtn"
+                                                                style="display: none;">
+                                                            لغو پاسخ
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            {% else %}
+                                                <div class="alert alert-info">
+                                                    برای ارسال نظر <a
+                                                        href="{% url 'login_page' %}?next={{ request.path }}"
+                                                        class="alert-link">وارد شوید</a>
+                                                </div>
+                                            {% endif %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

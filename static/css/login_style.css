@@ -1,0 +1,159 @@
+/* تعریف متغیرهای CSS برای سهولت تغییر رنگ‌ها */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #fff;
+  --background-color: #f5f7fa;
+  --text-color: #333;
+  --input-border: #ddd;
+  --button-bg: #4a90e2;
+  --button-bg-hover: #407ac0; /* کمی تیره‌تر برای حالت هاور */
+  --button-text: #fff;
+  --input-bg: #fafafa;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition-speed: 0.3s;
+}
+
+/* استایل‌های پایه */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* استایل کانتینر فرم */
+.container.forms {
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: var(--secondary-color);
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px var(--shadow-color); /* جهت راست به چپ برای متون فارسی */
+}
+
+/* استایل سربرگ فرم */
+.container.forms header {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+/* استایل محتوای فرم */
+.form-content {
+  width: 100%;
+}
+
+/* فیلدهای ورودی */
+.field {
+  margin-bottom: 15px;
+}
+
+.input-field input,
+.input-field textarea,
+.input-field select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  background-color: var(--input-bg);
+  font-size: 1rem;
+  transition: border-color var(--transition-speed) ease;
+}
+
+.input-field input:focus,
+.input-field textarea:focus,
+.input-field select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* استایل دکمه ثبت نام */
+.button-field button {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--button-bg);
+  border: none;
+  border-radius: 6px;
+  color: var(--button-text);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.button-field button:hover {
+  background-color: var(--button-bg-hover);
+}
+
+/* استایل لینک تغییر فرم */
+.form-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.form-link a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color var(--transition-speed) ease;
+}
+
+.form-link a:hover {
+  text-decoration: underline;
+}
+
+/* استایل گزینه‌های ورود از طریق شبکه‌های اجتماعی */
+.media-options {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.media-options .google {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+
+.media-options .google:hover {
+  background-color: var(--input-bg);
+  border-color: var(--primary-color);
+}
+
+.media-options .google img {
+  width: 20px;
+  margin-left: 10px;
+}
+
+/* استایل خط جداکننده */
+.line {
+  height: 1px;
+  background: var(--input-border);
+  margin: 20px 0;
+}
+
+/* رسپانسیو برای دستگاه‌های کوچکتر */
+@media (max-width: 600px) {
+  .container.forms {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .container.forms header {
+    font-size: 1.5rem;
+  }
+}
+.input-field input {
+  text-align: right;
+}
+
+.input-field input::placeholder {
+  text-align: right;
+}

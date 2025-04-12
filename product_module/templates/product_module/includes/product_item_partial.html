@@ -1,0 +1,41 @@
+{% load poll_extras %}
+{% load thumbnail %}
+<div class="col-sm-12 col-md-12 col-lg-4 ftco-animate d-flex fadeInUp ftco-animated">
+    <div class="product d-flex flex-column">
+        <a href="{% url 'product_detail' slug=product.slug %}" class="img-prod">
+            {% thumbnail product.image "300x300" crop="center" quality=99 as thumb %}
+                <img class="img-fluid img-thumbnail" src="{{ thumb.url }}"
+                     alt="{{ product.title }}">
+            {% endthumbnail %}
+
+            <div class="overlay"></div>
+        </a>
+        <div class="text py-4 pb-4 px-4">
+            <div class="d-flex">
+                <div class="cat">
+                    {% if product.brand %}
+                        <span>{{ product.brand.title }}</span>
+                    {% endif %}
+                </div>
+                <div class="rating">
+                    <p class="text-right mb-0">
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                        <a href="#"><span class="ion-ios-star-outline"></span></a>
+                    </p>
+                </div>
+            </div>
+            <h3><a href="{% url 'product_detail' slug=product.slug %}">{{ product.title }}</a></h3>
+            <div class="pricing">
+                <p class="price"><span>{{ product.price | three_digits_currency }}</span></p>
+            </div>
+            <p class="bottom-area d-flex px-3">
+                <a href="#" class="add-to-cart text-center py-2 mr-1"><span>افزودن به سبد خرید  <i
+                        class="ion-ios-add ml-1"></i></span></a>
+                <a href="#" class="buy-now text-center py-2"> خرید <span><i class="ion-ios-cart ml-1"></i></span></a>
+            </p>
+        </div>
+    </div>
+</div>

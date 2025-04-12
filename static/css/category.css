@@ -1,0 +1,248 @@
+.fancy-collapse-panel {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* عنوان دسته‌بندی */
+.heading {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #444;
+    text-align: right;
+}
+
+/* آکاردئون دسته‌بندی */
+.category-accordion {
+    overflow: hidden;
+}
+
+/* هر آیتم دسته */
+.category-item {
+    padding: 4px 0;
+}
+
+/* هدر دسته با استفاده از فلکس */
+.category-header {
+    cursor: pointer;
+}
+
+.category-title {
+    font-size: 0.85rem; /* اندازه فونت کمتر */
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* افکت هاور برای عنوان دسته */
+.category-title:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+/* لینک دسته */
+.category-link {
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    text-align: right;
+}
+
+/* دکمه آیکون باز/بسته */
+.toggle-btn {
+    border: none;
+    background: none;
+    color: #888;
+    font-size: 0.8rem;
+    width: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    outline: none;
+}
+
+.toggle-btn:hover {
+    color: #555;
+}
+
+/* انیمیشن collapse */
+.category-collapse,
+.subcategory-collapse {
+    transition: max-height 0.35s ease, opacity 0.35s ease;
+    overflow: hidden;
+}
+
+/* لیست زیر دسته‌ها */
+.subcategories-list {
+    padding-right: 10px;
+    border-right: 1px solid #ccc;
+    margin-top: 4px;
+}
+
+/* آیتم زیر دسته */
+.subcategory-item {
+    margin-bottom: 2px;
+}
+
+/* هدر زیر دسته */
+.subcategory-header {
+    font-size: 0.75rem; /* فونت کوچکتر */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* هاور زیر دسته */
+.subcategory-header:hover {
+    background-color: #f7f7f7;
+    border-radius: 4px;
+}
+
+/* لینک زیر دسته */
+.subcategory-link {
+    text-decoration: none;
+    color: #555;
+    flex: 1;
+    text-align: right;
+}
+
+/* لیست زیر زیر دسته‌ها */
+.sub-subcategories-list {
+    padding-right: 10px;
+    border-right: 1px dashed #ccc;
+    margin-top: 2px;
+}
+
+.subsubcategory-link {
+    display: block;
+    text-decoration: none;
+    font-size: 0.7rem;
+    color: #777;
+    padding: 2px 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* هاور زیر زیر دسته */
+.subsubcategory-link:hover {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+/* خط جداکننده بین دسته‌ها (یک خط نازک) */
+.category-divider {
+    height: 1px;
+    background-color: #e0e0e0; /* تغییر داده شده به رنگ کمرنگ تر */
+    margin: 4px 0;
+}
+/* Media Queries برای رسپانسیو */
+@media (max-width: 768px) {
+    .fancy-collapse-panel {
+        padding: 8px 10px;
+    }
+
+    .heading {
+        font-size: 1rem;
+    }
+
+    .category-title {
+        font-size: 0.8rem;
+    }
+
+    .subcategory-header {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .fancy-collapse-panel {
+        padding: 6px 8px;
+    }
+
+    .heading {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    .category-title,
+    .subcategory-header {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .toggle-btn {
+        margin-top: 2px;
+    }
+}
+
+
+.sidebar-container.active {
+    cursor: grabbing;
+}
+
+.sidebar-container::-webkit-scrollbar {
+    width: 8px;
+}
+.sidebar-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+.sidebar-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-container {
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    max-height: 120vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    position: relative;
+}
+
+/* استایل هندل کشیدن - ناحیه کوچک در گوشه سمت راست */
+.drag-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    cursor: grab;
+    /* می‌توانید پس‌زمینه‌ای کم‌رنگ یا شفاف داشته باشد */
+    background: transparent;
+    z-index: 10;
+}
+
+/* حالت active هنگام کشیدن */
+.drag-handle.active {
+    cursor: grabbing;
+}
+
+/* سایر استایل‌های قبلی */
+.sidebar-divider {
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+    margin: 15px 0;
+}
+
+.sidebar-section {
+    margin-bottom: 15px;
+}
+
+.filter-title {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+
+
+
+

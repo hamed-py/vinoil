@@ -1,0 +1,129 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+    تماس با ما
+{% endblock %}
+{% block content %}
+
+ <section class="ftco-section contact-section bg-light">
+        <div class="container">
+            <div class="row d-flex mb-5 contact-info">
+                <div class="w-100"></div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>آدرس:</span> {{ site_setting.addres }}</p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>Phone:</span> <a href="tel:+989197310984">{{ site_setting.phone.title }}</a></p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex">
+                    <div class="info bg-white p-4">
+                        <p><span>Website</span> <a href="#">yoursite.com</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row block-9">
+                <div class="col-md-6 order-md-last d-flex">
+                    <form action="{% url 'create_profile_page' %}" class="bg-white p-5 contact-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="profile">
+                        <div class="form-group">
+                            <button type="submit" value="ارسال پیام " class="btn btn-primary py-3 px-5">
+                                ارسال پیام
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="col-md-6 d-flex">
+                    <div id="map" class="bg-white" style="position: relative; overflow: hidden;">
+                        <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                            <div class="gm-err-container">
+                                <div class="gm-err-content">
+                                    <div class="gm-err-icon"><img
+                                            src="https://maps.gstatic.com/mapfiles/api-3/images/icon_error.png" alt=""
+                                            draggable="false" style="user-select: none;"></div>
+                                    <div class="gm-err-title">Oops! Something went wrong.</div>
+                                    <div class="gm-err-message">This page didn't load Google Maps correctly. See the
+                                        JavaScript console for technical details.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="ftco-gallery ftco-section ftco-no-pb">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 heading-section text-center mb-4 ftco-animate fadeInUp ftco-animated">
+                    <h2 class="mb-4">Follow Us On Instagram</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there
+                        live the blind texts. Separated they live in</p>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid px-0">
+            <div class="row no-gutters">
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-1.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-2.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-3.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-4.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-5.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-5.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-lg-2 ftco-animate fadeInUp ftco-animated">
+                    <a href="/static/images/gallery-6.jpg" class="gallery image-popup img d-flex align-items-center"
+                       style="background-image: url(/static/images/gallery-6.jpg);">
+                        <div class="icon mb-4 d-flex align-items-center justify-content-center">
+                            <span class="icon-instagram"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'shared/_layout.html' %}
+{% load poll_extras %}
+{% load render_partial %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <section class="ftco-section bg-light" role="main" dir="rtl">
+        <div class="container">
+            <div class="row">
+                <!-- بخش اصلی محصولات -->
+                <main class="col-md-7 col-lg-9 order-md-last">
+                    {% if product_list %}
+                        <div class="row">
+                            {% for product in product_list %}
+                                {% include 'product_module/includes/product_item_partial.html' with product=product %}
+                            {% endfor %}
+                        </div>
+                        <div class="loading-indicator">
+                            <div class="spinner"></div>
+                            <p>در حال بارگیری محصولات بیشتر...</p>
+                        </div>
+                    {% else %}
+                        <div class="custom-alert">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>هیچ محصولی یافت نشد</p>
+                        </div>
+                    {% endif %}
+                </main>
+
+
+                <aside class="col-md-5 col-lg-3">
+                    <div class="sidebar-container" style="position: relative;">
+                        <!-- دراگ هندل به صورت کوچک (فقط ناحیه‌ای برای کلیک و کشیدن) -->
+                        <div id="drag-handle" class="drag-handle"></div>
+
+                        <!-- دسته‌بندی‌ها -->
+                        <section class="sidebar-section">
+                            {% render_partial 'product_module.views.product_category_component' %}
+                        </section>
+                        <hr class="sidebar-divider">
+                        <!-- برندها -->
+                        <section class="sidebar-section">
+                            {% render_partial 'product_module.views.product_brands_component' %}
+                        </section>
+                        <hr class="sidebar-divider">
+                        <!-- محدوده قیمت -->
+                        <section class="sidebar-section">
+                            <form method="get" id="price-filter-form">
+                                <div class="filter-box">
+                                    <h4 class="filter-title">فیلتر قیمت</h4>
+                                    <!-- اسلایدر قیمت -->
+                                    <div class="range-slider-container" style="position: relative;">
+                                        <!-- المنت کشویی -->
+                                        <input type="range" class="form-range" id="priceRange" name="priceRange"
+                                               min="0" max="{{ bd_max_price }}" value="{{ start_price }}" step="1000">
+                                        <!-- المنت اختیاری برای نمایش نوار انتخاب -->
+                                        <div id="slider-track"></div>
+                                        <span class="price-display">
+                    <output id="amount-min">{{ start_price }}</output> تومان
+                </span>
+                                    </div>
+                                    <!-- کادر ورودی برای قیمت -->
+                                    <div class="price-inputs">
+                                        <input type="number" id="price-min" name="start_price" placeholder="از" min="0"
+                                               value="{{ start_price }}">
+                                        <input type="number" id="price-max" name="end_price" placeholder="تا" min="0"
+                                               value="{{ end_price }}">
+                                    </div>
+                                    <!-- دکمه اعمال فیلتر -->
+                                    <button type="submit" class="btn btn-primary">اعمال فیلتر</button>
+                                </div>
+                            </form>
+                        </section>
+
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{#<section class="sidebar-box-2">#}
+{#    <div class="promo-banner-container">#}
+{#        {% for banner in banners %}#}
+{#            <div class="promo-banner-item">#}
+{#                <img src="{{ banner.image.url }}" class="promo-banner-image"#}
+{#                     alt="{{ banner.title }}">#}
+{#                <div class="promo-banner-overlay">#}
+{#                    <div class="promo-text-container">#}
+{#                        <h3 class="promo-banner-title">{{ banner.title }}</h3>#}
+{#                        <a href="{{ banner.url }}" class="promo-banner-cta">مشاهده بیشتر</a>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#</section>#}
