@@ -6,24 +6,18 @@
         <div class="form login">
             <div class="form-content">
                 <header>ورود</header>
-                <form method="post" action="{% url 'login_page' %}">
+                <form method="post">
                     {% csrf_token %}
-                    <div class="field input-field ">
-                        {{ login_form.email }}
-                        {{ login_form.email.errors }}
-                    </div>
-                    <div class="field input-field">
-                        {{ login_form.password }}
-                        {{ login_form.password.errors }}
-                    </div>
-                    <p><a href="{% url 'forget_password_page' %}">بازیابی رمز عبور</a></p>
+                    {{ form.phone.label_tag }}<br>{{ form.phone }}<br>
                     <div class="field button-field">
-                        <button>ورود</button>
+                        <button type="submit" class="btn btn-primary mt-3">ارسال کد ورود</button>
                     </div>
                 </form>
                 <div class="form-link">
-                    <span>آیا حساب کاربری دارید؟ <a href="{% url 'register_page' %}"
-                                                    class="link signup-link">ثبت نام</a></span>
+                    <p class="mt-2">
+                        <a href="{% url 'account_module:register' %}">ثبت‌نام</a> |
+                        <a href="{% url 'account_module:forgot_password' %}">فراموشی رمز</a>
+                    </p>
                 </div>
             </div>
 

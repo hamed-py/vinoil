@@ -7,20 +7,19 @@
         <div class="form signup">
             <div class="form-content">
                 <header> بازیابی رمز عبور</header>
-                <form method="post" action="{% url 'reset_password_page' active_code=user.email_active_code%}">
+                <form method="post">
                     {% csrf_token %}
-                    <div class="field input-field">
-                        {{ reset_password_form.password }}
-                        {{ reset_password_form.password.errors }}
-                    </div>
-                    <div class="field input-field">
-                        {{ reset_password_form.confirm_password }}
-                        {{ reset_password_form.confirm_password.errors }}
-                    </div>
+                    {{ form.otp.label_tag }}<br>{{ form.otp }}<br>
+                    {{ form.new_password.label_tag }}<br>{{ form.new_password }}<br>
+                    {{ form.new_password_confirm.label_tag }}<br>{{ form.new_password_confirm }}<br>
                     <div class="field button-field">
-                        <button>بازیابی رمز عبور</button>
+                        <button type="submit" class="btn btn-primary mt-3">ذخیره رمز جدید</button>
                     </div>
                 </form>
+                <p class="mt-2">
+                    <a href="{% url 'account_module:resend_otp' %}">ارسال مجدد کد</a> |
+                    <a href="{% url 'account_module:login' %}">ورود</a>
+                </p>
             </div>
         </div>
     </section>

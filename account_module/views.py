@@ -1,151 +1,167 @@
-from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpRequest
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.utils.decorators import method_decorator
 from django.views import View
-from account_module.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
-from .models import User
-from django.utils.crypto import get_random_string
-from django.contrib.auth import login, logout
-from utils.email_sevices import send_email
+from django.contrib.auth import login, logout, get_user_model
+from django.urls import reverse
+from django.contrib import messages
+from django.core.cache import cache
+from django.utils.safestring import mark_safe
+from .forms import (RegisterForm, LoginForm, VerifyOTPForm,
+                    ForgotPassForm, ResetPassForm)
+from .sms import send_sms_code, verify_sms_code
+from .models import AuthLog
 
+User = get_user_model()
+FAILED_LIMIT = 5
+LOCKOUT_TTL = 15 * 60
 
-class RegisterViews(View):
-    def get(self, request):
-        register_form = RegisterForm()
-        context = {
-            'register_form': register_form,
-        }
-        return render(request, 'account_module/register.html', context)
+class BaseOTPView:
+    def log_event(self, phone, event, success):
+        AuthLog.objects.create(phone=phone, event=event, success=success)
 
-    def post(self, request):
-        register_form = RegisterForm(request.POST)
-        if register_form.is_valid():
-            user_email = register_form.cleaned_data['email']
-            user_pass = register_form.cleaned_data['password']
-            user: bool = User.objects.filter(email__iexact=user_email).exists()
-            if user:
-                register_form.add_error('email', 'این ایمیل قبلا در سایت ثبت نام کرده است')
+class RegisterView(BaseOTPView, View):
+    def get(self, req):
+        return render(req, 'account_module/register.html', {'form': RegisterForm()})
+
+    def post(self, req):
+        form = RegisterForm(req.POST)
+        if form.is_valid():
+            phone = form.cleaned_data['phone']
+            if User.objects.filter(phone=phone).exists():
+                # افزودن خطا با لینک به ورود
+                url = reverse('account_module:login')
+                form.add_error(
+                    'phone',
+                    mark_safe(f'این شماره قبلاً ثبت شده است. برای ورود <a href="{url}">اینجا</a> کلیک کنید.')
+                )
+                return render(req, 'account_module/register.html', {'form': form})
+            # ذخیره موقت رمز در session
+            req.session['register_data'] = {
+                'phone': phone,
+                'password': form.cleaned_data['new_password']
+            }
+            try:
+                send_sms_code(phone)
+                return redirect('account_module:verify_otp')
+            except Exception as e:
+                form.add_error(None, str(e))
+        return render(req, 'account_module/register.html', {'form': form})
+
+class LoginView(BaseOTPView, View):
+    def get(self, req):
+        return render(req, 'account_module/login_page.html', {'form': LoginForm()})
+
+    def post(self, req):
+        form = LoginForm(req.POST)
+        if form.is_valid():
+            phone = form.cleaned_data['phone']
+            if not User.objects.filter(phone=phone).exists():
+                messages.error(req, mark_safe('شماره ثبت نشده است. برای ثبت‌نام <a href="'+
+                      reverse('account_module:register')+'">اینجا</a> کلیک کنید.'))
+                return redirect('account_module:register')
+            try:
+                send_sms_code(phone)
+                req.session['login_phone'] = phone
+                return redirect('account_module:verify_otp')
+            except Exception as e:
+                form.add_error(None, str(e))
+        return render(req, 'account_module/login_page.html', {'form': form})
+
+class VerifyOTPView(BaseOTPView, View):
+    def get(self, req):
+        data = req.session.get('register_data') or {'phone': req.session.get('login_phone')}
+        return render(req, 'account_module/verify.html', {
+            'form': VerifyOTPForm(),
+            'pending_phone': data.get('phone')
+        })
+
+    def post(self, req):
+        form = VerifyOTPForm(req.POST)
+        reg = req.session.get('register_data')
+        phone = (reg or {}).get('phone') or req.session.get('login_phone')
+        if not phone:
+            return redirect('account_module:login')
+        if cache.get(f"lockout_{phone}"):
+            messages.error(req, 'حساب قفل است. بعداً تلاش کنید.')
+            return redirect('account_module:verify_otp')
+        if form.is_valid():
+            if verify_sms_code(phone, form.cleaned_data['otp']):
+                # ثبت یا ورود
+                if reg:
+                    # ثبت‌نام
+                    User.objects.create_user(
+                        phone=phone,
+                        password=reg['password']
+                    )
+                    del req.session['register_data']
+                user = User.objects.get(phone=phone)
+                login(req, user)
+                self.log_event(phone, 'register' if reg else 'login', True)
+                # پاک‌سازی session های شماره
+                req.session.pop('login_phone', None)
+                return redirect('home_page')
+            # خطای OTP
+            cnt = cache.get(f"fail_{phone}", 0) + 1
+            cache.set(f"fail_{phone}", cnt, LOCKOUT_TTL)
+            if cnt >= FAILED_LIMIT:
+                cache.set(f"lockout_{phone}", True, LOCKOUT_TTL)
+                messages.error(req, 'تعداد تلاش‌ها زیاد شد و حساب قفل شد.')
             else:
-                new_user = User(email=user_email, username=user_email, is_active=False,
-                                email_active_code=get_random_string(72))
-                new_user.set_password(user_pass)
-                new_user.save()
-                # todo send email active code
-                send_email('فعالسازی حساب کاربری', new_user.email, {'user': new_user}, 'email/activate_account.html')
-                return redirect(reverse('login_page'))
+                messages.error(req, 'کد نادرست است.')
+        return render(req, 'account_module/verify.html', {'form': form, 'pending_phone': phone})
 
-        context = {'register_form': register_form}
-        return render(request, 'account_module/register.html', context)
+class ResendOTPView(BaseOTPView, View):
+    def get(self, req):
+        if req.session.get('register_data'):
+            phone = req.session['register_data']['phone']
+        else:
+            phone = req.session.get('login_phone') or req.session.get('phone_reset')
+        try:
+            send_sms_code(phone)
+            messages.success(req, 'کد مجدد ارسال شد.')
+        except Exception as e:
+            messages.error(req, str(e))
+        # بازگشت
+        return redirect('account_module:verify_otp')
 
+class LogoutView(View):
+    def get(self, req):
+        logout(req)
+        return redirect('account_module:login')
 
-class ActivateAccountView(View):
-    def get(self, request, email_active_code):
-        user: User = User.objects.filter(email_active_code__iexact=email_active_code).first()
-        if user is not None:
-            if not user.is_active:
-                user.is_active = True
-                user.email_active_code = get_random_string(72)
-                user.save()
-                send_email('فعالسازی حساب کاربری', user.email, {'user': user}, 'email/activate_account.html')
-                return redirect(reverse('login_page'))
+class ForgotPasswordView(BaseOTPView, View):
+    def get(self, req):
+        return render(req, 'account_module/forgot_pass.html', {'form': ForgotPassForm()})
+    def post(self, req):
+        form = ForgotPassForm(req.POST)
+        if form.is_valid():
+            phone = form.cleaned_data['phone']
+            if not User.objects.filter(phone=phone).exists():
+                form.add_error('phone', 'شماره ثبت نشده است.')
             else:
-                pass
-        raise Http404
+                try:
+                    send_sms_code(phone)
+                    req.session['phone_reset'] = phone
+                    return redirect('account_module:reset_password')
+                except Exception as e:
+                    form.add_error(None, str(e))
+        return render(req, 'account_module/forgot_pass.html', {'form': form})
 
-
-class LoginView(View):
-    def get(self, request):
-        login_form = LoginForm()
-        context = {
-            'login_form': login_form
-        }
-
-        return render(request, 'account_module/login_page.html', context)
-
-    def post(self, request: HttpRequest):
-        login_form = LoginForm(request.POST)
-        if login_form.is_valid():
-            user_email = login_form.cleaned_data['email']
-            user_pass = login_form.cleaned_data['password']
-            user: User = User.objects.filter(email__iexact=user_email).first()
-            if user is not None:
-                if not user.is_active:
-                    login_form.add_error('email', 'حساب کاربری شما فعال نشده است')
-                else:
-                    is_pass_correct = user.check_password(user_pass)
-                    if is_pass_correct:
-                        login(request, user)
-                        return redirect(reverse('home_page'))
-                    else:
-                        login_form.add_error('email', 'رمز عبور اشتباه است')
-            else:
-                login_form.add_error('email', 'کابری با مشخصات وارد شده یافت نشد')
-
-        context = {
-            'login_form': login_form
-        }
-        return render(request, 'account_module/login_page.html', context)
-
-
-@method_decorator(login_required, name='dispatch')
-class ForgotPasswordView(View):
-    def get(self, request: HttpRequest):
-        forget_password_form = ForgotPasswordForm()
-        context = {
-            'forget_password_form': forget_password_form
-        }
-        return render(request, 'account_module/forgot_pass.html', context)
-
-    def post(self, request: HttpRequest):
-        forget_password_form = ForgotPasswordForm(request.POST)
-        if forget_password_form.is_valid():
-            user_email = forget_password_form.cleaned_data['email']
-            user: User = User.objects.filter(email__iexact=user_email).first()
-            if user is not None:
-                send_email('بازیابی کلمه عبور', user.email, {'user': user}, 'email/forgot_password.html')
-                return redirect(reverse('home_page'))
-
-
-@method_decorator(login_required, name='dispatch')
-class ResetPasswordView(View):
-    def get(self, request: HttpRequest, active_code):
-        user: User = User.objects.filter(email_active_code__iexact=active_code).first()
-        if user is None:
-            return redirect(reverse('login_page'))
-
-        reset_password_form = ResetPasswordForm()
-        context = {
-            'reset_password_form': reset_password_form,
-            'user': user
-        }
-
-        return render(request, 'account_module/reset_pass.html', context)
-
-    def post(self, request: HttpRequest, active_code):
-        reset_password_form = ResetPasswordForm(request.POST)
-        user: User = User.objects.filter(email_active_code__iexact=active_code).first()
-        if reset_password_form.is_valid():
-            if user is None:
-                return redirect(reverse('login_page'))
-            user_new_pass = reset_password_form.cleaned_data.get('password')
-            user.set_password(user_new_pass)
-            user.email_active_code = get_random_string(72)
-            user.is_active = True
+class ResetPasswordView(BaseOTPView, View):
+    def get(self, req):
+        return render(req, 'account_module/reset_pass.html', {'form': ResetPassForm()})
+    def post(self, req):
+        form = ResetPassForm(req.POST)
+        phone = req.session.get('phone_reset')
+        if not phone:
+            return redirect('account_module:forgot_password')
+        if form.is_valid() and verify_sms_code(phone, form.cleaned_data['otp']):
+            user = User.objects.get(phone=phone)
+            user.set_password(form.cleaned_data['new_password'])
             user.save()
-            return redirect(reverse('login_page'))
-
-        context = {
-            'reset_password_form': reset_password_form,
-            'user': user
-        }
-
-        return render(request, 'account_module/reset_pass.html', context)
-
-
-@method_decorator(login_required, name='dispatch')
-class LogOutView(View):
-    def get(self, request):
-        logout(request)
-        return redirect(reverse('login_page'))
+            del req.session['phone_reset']
+            self.log_event(phone, 'reset', True)
+            messages.success(req, 'رمز عبور با موفقیت تغییر یافت.')
+            return redirect('account_module:login')
+        if form.errors:
+            messages.error(req, form.errors.as_text())
+        return render(req, 'account_module/reset_pass.html', {'form': form})

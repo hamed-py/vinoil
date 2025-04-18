@@ -1,0 +1,18 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+    تایید کد
+{% endblock %}
+{% block content %}
+
+    <div class="container text-center mt-5 mb-5">
+        <h2 class="cart-total mb-3 text-center bg-light shadow rounded border border-light">تأیید کد برای: {{ pending_phone }}</h2>
+        <form method="post" class="cart-total mb-3 rtl-text bg-light shadow rounded border border-light">{% csrf_token %}
+            {{ form.otp.label_tag }} {{ form.otp }}<br>
+            <button type="submit" class="btn btn-primary mt-3 ">تأیید</button>
+        </form>
+        <p class="mt-2">
+            <a href="{% url 'account_module:resend_otp' %}">ارسال مجدد کد</a> |
+            <a href="{% url 'account_module:forgot_password' %}">بازیابی رمز</a>
+        </p>
+    </div>
+{% endblock %}

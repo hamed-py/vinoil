@@ -264,7 +264,7 @@
                                     <a href="{% url 'product_detail' slug=latest_product.slug %}">{{ latest_product.title }}</a>
                                 </h3>
                                 <div class="pricing">
-                                    <p class="price"><span>{{ latest_product.price }}</span></p>
+                                    <p class="price"><span>{{ latest_product.price | three_digits_currency }}</span></p>
                                 </div>
                                 <p class="bottom-area d-flex px-3">
                                     <a href="#" class="add-to-cart text-center py-2 mr-1"><span>افزودن به سبدخرید<i
