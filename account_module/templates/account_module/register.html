@@ -7,25 +7,25 @@
         <div class="form signup">
             <div class="form-content">
                 <header> ثبت نام</header>
-                <form method="post" action="{% url 'register_page' %}">
-                    {% csrf_token %}
-                    <div class="field input-field">
-                        {{ register_form.email }}
-                        {{ register_form.email.errors }}
+                <form method="post">{% csrf_token %}
+                    <div class="form-group">{{ form.phone.label_tag }} {{ form.phone }}
+                        {% if form.phone.errors %}
+                            <div class="text-danger">{{ form.phone.errors.0|safe }}</div>
+                        {% endif %}
                     </div>
-                    <div class="field input-field">
-                        {{ register_form.password }}
+                    <div class="form-group">{{ form.new_password.label_tag }} {{ form.new_password }}
+                        {% if form.non_field_errors %}
+                            <div class="text-danger mt-1">{{ form.non_field_errors.0 }}</div>
+                        {% endif %}
                     </div>
-                    <div class="field input-field">
-                        {{ register_form.confirm_password }}
-                        {{ register_form.confirm_password.errors }}
-                    </div>
-                    <div class="field button-field">
-                        <button>ثبت نام</button>
-                    </div>
+                    <div class="form-group">{{ form.new_password_confirm.label_tag }} {{ form.new_password_confirm }}</div>
+                    <button type="submit" class="btn btn-primary mt-3">ثبت‌نام</button>
                 </form>
                 <div class="form-link">
-                    <span>آیا حساب کاربری دارید؟ <a href="{% url 'login_page' %}" class="link login-link">ورود</a></span>
+                    <p class="mt-2">
+                        <a href="{% url 'account_module:login' %}">ورود</a> |
+                        <a href="{% url 'account_module:forgot_password' %}">بازیابی رمز</a>
+                    </p>
                 </div>
             </div>
             <div class="line"></div>

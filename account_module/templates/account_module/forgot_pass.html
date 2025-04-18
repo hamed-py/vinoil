@@ -7,16 +7,19 @@
         <div class="form signup">
             <div class="form-content">
                 <header> فراموشی رمز عبور</header>
-                <form method="post" action="{% url 'forget_password_page' %}">
+                <form method="post">
                     {% csrf_token %}
                     <div class="field input-field">
-                        {{ forget_password_form.email }}
-                        {{ forget_password_form.email.errors }}
+                        {{ form.phone.label_tag }}<br>{{ form.phone }}<br>
                     </div>
                     <div class="field button-field">
-                        <button>فراموشی رمز عبور</button>
+                        <button type="submit" class="btn btn-primary mt-3">ارسال کد بازنشانی</button>
                     </div>
                 </form>
+                <p class="mt-2">
+                    <a href="{% url 'account_module:login' %}">ورود</a> |
+                    <a href="{% url 'account_module:register' %}">ثبت‌نام</a>
+                </p>
             </div>
         </div>
     </section>

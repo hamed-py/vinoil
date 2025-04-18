@@ -1,0 +1,8 @@
+{% extends 'shared/_layout.html' %}
+{% block title %}
+خروج
+{% endblock %}
+{% block content %}
+<p>شما با موفقیت خارج شدید.</p>
+<a href="{% url 'account_module:login' %}">ورود مجدد</a>
+{% endblock %}

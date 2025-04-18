@@ -1,11 +1,13 @@
 from django.urls import path
-from account_module import views
-
+from .views import (RegisterView, LoginView, VerifyOTPView,
+                     ResendOTPView, LogoutView, ForgotPasswordView, ResetPasswordView)
+app_name = 'account_module'
 urlpatterns = [
-    path('register/', views.RegisterViews.as_view(), name='register_page'),
-    path('login/', views.LoginView.as_view(), name='login_page'),
-    path('logout/', views.LogOutView.as_view(), name='logout_page'),
-    path('forget-pass/', views.ForgotPasswordView.as_view(), name='forget_password_page'),
-    path('reset-pass/<active_code>', views.ResetPasswordView.as_view(), name='reset_password_page'),
-    path('activate-account/<email_active_code>', views.ActivateAccountView.as_view(), name='activate_account'),
+    path('register/',RegisterView.as_view(),name='register'),
+    path('login/',LoginView.as_view(),name='login'),
+    path('verify/',VerifyOTPView.as_view(),name='verify_otp'),
+    path('resend-otp/',ResendOTPView.as_view(),name='resend_otp'),
+    path('forgot-password/',ForgotPasswordView.as_view(),name='forgot_password'),
+    path('reset-password/',ResetPasswordView.as_view(),name='reset_password'),
+    path('logout/',LogoutView.as_view(),name='logout'),
 ]

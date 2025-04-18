@@ -7,17 +7,12 @@ from account_module.models import User
 class EditProfileModelForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'mobile', 'address', 'about_user', 'avatar', ]
+        fields = '__all__'
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'نام',
                 'id': 'name',
-            }),
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'ایمیل',
-                'id': 'email',
             }),
             'last_name': forms.TextInput(attrs={
                 'class': 'form-control',

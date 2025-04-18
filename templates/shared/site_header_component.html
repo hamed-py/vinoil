@@ -89,15 +89,15 @@
           	                    active
                             {% endif %} "></i> پنل کاربری
                             </a>
-                            <a href="{% url 'logout_page' %}" class="dropdown-item">
+                            <a href="{% url 'account_module:logout' %}" class="dropdown-item">
                                 <i class="fas fa-sign-out-alt"></i> خروج
                             </a>
                         </div>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a href="{% url 'login_page' %}"
-                           class="nav-link {% if request.resolver_match.url_name == 'login_page' %}
+                        <a href="{% url 'account_module:login' %}"
+                           class="nav-link {% if request.resolver_match.url_name == 'account_module:login' %}
           	                          active
                                  {% endif %} ">
                             <i class="fas fa-sign-in-alt"></i> ثبت نام / ورود
