@@ -1,6 +1,8 @@
 {% for comment in comments %}
 <div class="review" data-comment-id="{{ comment.id }}">
-    <div class="user-img" style="background-image: url({{ comment.user.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
+    <div class="user-img"
+     style="background-image: url('{{ comment.user.profile.avatar_url }}');">
+</div>
     <div class="desc">
         <h4>
             <span class="text-left">{{ comment.user.username }}</span>
@@ -15,7 +17,7 @@
 
         {% for reply in comment.replies.all %}
             <div class="review ml-5">
-                <div class="user-img" style="background-image: url({{ reply.user.profile.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
+                <div class="user-img" style="background-image: url({{ reply.user.profile.avatar.url}})"></div>
                 <div class="desc">
                     <h5>
                         <span class="text-left">{{ reply.user.username }}</span>

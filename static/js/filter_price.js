@@ -1,24 +1,21 @@
-function updatePriceDisplay(value) {
-    document.getElementById("amount").textContent = Number(value).toLocaleString('fa-IR');
-}
 document.addEventListener("DOMContentLoaded", function () {
-    // گرفتن المنت‌های مورد نیاز از DOM
     const getElements = () => ({
         priceRange: document.getElementById("priceRange"),
         priceMin: document.getElementById("price-min"),
         priceMax: document.getElementById("price-max"),
         amountMin: document.getElementById("amount-min"),
-        sliderTrack: document.getElementById("slider-track") // اختیاری
+        sliderTrack: document.getElementById("slider-track"),
+        resetButton: document.getElementById("reset-filter")
     });
 
     const elements = getElements();
 
-    // برای دیباگ، نمایش وضعیت المنت‌ها در کنسول:
+    // نمایش وضعیت المنت‌ها در کنسول برای دیباگ
     console.log("عناصر دریافت شده:", elements);
 
-    // بررسی وجود المنت‌های ضروری
+    // اگر یکی از عناصر ضروری در DOM وجود نداشت، اسکریپت را متوقف کن
     if (!elements.priceRange || !elements.priceMin || !elements.priceMax || !elements.amountMin) {
-        console.error('خطا: یکی از عناصر ضروری در DOM وجود ندارد!');
+        console.warn('خطا: یکی از عناصر ضروری در DOM وجود ندارد!');
         return;
     }
 
@@ -39,6 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const percentMax = (maxValue / bdMaxPrice) * 100;
             elements.sliderTrack.style.left = `${percentMin}%`;
             elements.sliderTrack.style.width = `${percentMax - percentMin}%`;
+
+            // انیمیشن برای اسلایدر
+            elements.sliderTrack.style.transition = "all 0.3s ease";
         }
     };
 
@@ -65,20 +65,19 @@ document.addEventListener("DOMContentLoaded", function () {
         // به‌روزرسانی نمایش مقدار
         elements.amountMin.textContent = minValue.toLocaleString('fa-IR');
 
-        // به‌روزرسانی اسلایدر گرافیکی در صورت وجود
+        // به‌روزرسانی اسلایدر گرافیکی
         updateSliderGraphic(minValue, maxValue);
 
         isUpdating = false;
     };
 
-    // تابع کمکی جهت افزودن رویداد با بررسی وجود المنت
+    // افزودن رویداد
     const addEvent = (element, event, handler) => {
         if (element) element.addEventListener(event, handler);
     };
 
-    // تعریف رویدادهای ورودی برای همگام‌سازی عناصر
+    // رویدادها
     addEvent(elements.priceRange, 'input', () => {
-        // همگام سازی مقدار ورودی عددی با اسلایدر
         elements.priceMin.value = elements.priceRange.value;
         updateSlider();
     });
@@ -94,7 +93,18 @@ document.addEventListener("DOMContentLoaded", function () {
         updateSlider();
     });
 
-    // مقداردهی اولیه ورودی‌ها و به‌روزرسانی نمایش
+    // رویداد دکمه ریست فیلتر
+    addEvent(elements.resetButton, 'click', (event) => {
+        event.preventDefault();
+        // بازنشانی مقادیر
+        elements.priceMin.value = 0;
+        elements.priceMax.value = bdMaxPrice;
+        elements.priceRange.value = 0;
+        elements.amountMin.textContent = 0;
+        updateSlider();
+    });
+
+    // مقداردهی اولیه
     elements.priceMin.value = validateInput(elements.priceMin.value);
     elements.priceMax.value = validateInput(elements.priceMax.value, true);
     updateSlider();

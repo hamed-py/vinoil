@@ -135,35 +135,45 @@
                                         {% for comment in comments %}
                                             <div class="review mb-4" data-comment-id="{{ comment.id }}">
                                                 <div class="user-img"
-                                                     style="background-image: url({{ comment.user.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
-                                                <div class="desc">
+                                                     style="{% if comment.user.avatar %}
+                                                                 background-image: url('{{ comment.user.avatar.url }}');
+                                                             {% else %}
+                                                                 background-image: url('/static/images/person_2.jpg');
+                                                             {% endif %}
+                                                             ">
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h5 class="mb-0">{{ comment.user.username }}</h5>
+                                                    <small class="text-muted">{{ comment.created_at|date:"Y-m-d H:i" }}</small>
+                                                </div>
+                                                <p class="mt-2">{{ comment.text }}</p>
+
+                                                <!-- دکمه پاسخ -->
+                                                <button onclick="setParentId({{ comment.id }})"
+                                                        class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-reply"></i> پاسخ
+                                                </button>
+
+                                                <!-- پاسخ‌ها -->
+                                                <div class="replies mt-3 ms-5">
+                                                    {% for reply in comment.replies.all %}
+                                                        <div class="review reply-item mb-3">
+                                                        {% if reply.user.profile.avatar %}
+                                                            <div class="user-img"
+                                                                 style="background-image: url('{{ reply.user.profile.avatar.url }}');">
+                                                        {% else %}
+                                                            <div class="user-img"
+                                                                 style="background-image: url('/static/images/person_1.jpg');">
+                                                        {% endif %}
+
                                                     <div class="d-flex justify-content-between align-items-center">
-                                                        <h5 class="mb-0">{{ comment.user.username }}</h5>
-                                                        <small class="text-muted">{{ comment.created_at|date:"Y-m-d H:i" }}</small>
+                                                        <h6 class="mb-0">{{ reply.user.username }}</h6>
+                                                        <small class="text-muted">{{ reply.created_at|date:"Y-m-d H:i" }}</small>
                                                     </div>
-                                                    <p class="mt-2">{{ comment.text }}</p>
-
-                                                    <!-- دکمه پاسخ -->
-                                                    <button onclick="setParentId({{ comment.id }})"
-                                                            class="btn btn-sm btn-outline-primary">
-                                                        <i class="fas fa-reply"></i> پاسخ
-                                                    </button>
-
-                                                    <!-- پاسخ‌ها -->
-                                                    <div class="replies mt-3 ms-5">
-                                                        {% for reply in comment.replies.all %}
-                                                            <div class="review reply-item mb-3">
-                                                                <div class="user-img"
-                                                                     style="background-image: url({{ reply.user.avatar.url|default:'/static/images/default-avatar.jpg' }})"></div>
-                                                                <div class="desc">
-                                                                    <div class="d-flex justify-content-between align-items-center">
-                                                                        <h6 class="mb-0">{{ reply.user.username }}</h6>
-                                                                        <small class="text-muted">{{ reply.created_at|date:"Y-m-d H:i" }}</small>
-                                                                    </div>
-                                                                    <p class="mt-2">{{ reply.text }}</p>
-                                                                </div>
-                                                            </div>
-                                                        {% endfor %}
+                                                    <p class="mt-2">{{ reply.text }}</p>
+                                                    </div>
+                                                    </div>
+                                                    {% endfor %}
                                                     </div>
                                                 </div>
                                             </div>
