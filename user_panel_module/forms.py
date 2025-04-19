@@ -1,13 +1,15 @@
+import os
 from django import forms
 from django.core import validators
 from django.core.exceptions import ValidationError
+from  django.utils.text import slugify
 from account_module.models import User
 
 
 class EditProfileModelForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'address', 'phone', 'about_user', 'avatar']
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -27,7 +29,7 @@ class EditProfileModelForm(forms.ModelForm):
                 'id': 'message',
 
             }),
-            'mobile': forms.TextInput(attrs={
+            'phone': forms.TextInput(attrs={
                 'class': 'form-control',
 
             }),
@@ -35,9 +37,20 @@ class EditProfileModelForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'درباره من',
                 'rows': '4',
-            })
+            }),
+            'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+
         }
 
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+        if avatar:
+            name, ext = os.path.splitext(avatar.name)
+
+            name = name.replace('.png', '').replace('.jpg', '')
+
+            avatar.name = f"{slugify(name)}{ext.lower()}"
+        return avatar
 
 
 class ChangePasswordForm(forms.Form):
