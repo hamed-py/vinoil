@@ -38,7 +38,7 @@
     <section class="search-section">
         <div class="container-fluid px-0">
             <div class="search-wrapper">
-                <form class="modern-search-form" action="{% url 'product_list' %}">
+                <form class="modern-search-form" action="/products/search" method="get">
                     <div class="search-header">
                         <h2 class="search-heading">
                             <span class="gradient-text">محصولات خاص ما</span>
@@ -48,6 +48,7 @@
                     <div class="search-input-group">
                         <input type="search"
                                name="q"
+                               id="search-input"
                                class="search-input"
                                placeholder="جستجوی محصولات..."
                                aria-label="جستجوی محصولات">
@@ -55,6 +56,8 @@
                             <i class="fas fa-search"></i>
                         </button>
                     </div>
+
+                    <div class="search-results" id="search-results"></div>
 
                     <div class="search-tags-container">
                         <div class="search-tags">
@@ -71,6 +74,7 @@
             </div>
         </div>
     </section>
+
     <!-- بخش لیست دسته‌بندی با تصاویر -->
     <section class="unique-carousel">
         <div class="unique-carousel__container">

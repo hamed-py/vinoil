@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.db.models.aggregates import Count
-from django.http import HttpRequest, HttpResponseBadRequest
+from django.http import HttpRequest, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.http import require_POST
@@ -161,6 +162,8 @@ def add_product_comment(request: HttpRequest):
     # بازگرداندن HTML به‌روزشده نظرات
     comments = ProductComment.objects.filter(product=product, parent__isnull=True)
     return render(request, 'product_module/includes/product_comment_partial.html', {'comments': comments})
+
+
 
 
 

@@ -7,29 +7,29 @@
         <div class="container">
             <div class="row d-flex mb-5 contact-info">
                 <div class="w-100"></div>
-                <div class="col-md-3 d-flex">
+                <div class="col-md-3 d-flex cart-total mb-3 rtl-text bg-light shadow rounded border border-light">
                     <div class="info bg-white p-4">
                         <p><span>آدرس:</span> {{ site_setting.addres }}</p>
                     </div>
                 </div>
-                <div class="col-md-3 d-flex">
+                <div class="col-md-3 d-flex cart-total mb-3 rtl-text bg-light shadow rounded border border-light">
                     <div class="info bg-white p-4">
-                        <p><span>Phone:</span> <a href="tel:+989197310984">{{ site_setting.phone.title }}</a></p>
+                        <p><span>شماره تماس:</span> <a href="tel:+989197310984">{{ site_setting.phone}}</a></p>
                     </div>
                 </div>
-                <div class="col-md-3 d-flex">
+                <div class="col-md-3 d-flex cart-total mb-3 rtl-text bg-light shadow rounded border border-light">
                     <div class="info bg-white p-4">
-                        <p><span>Email:</span> <a href="mailto:info@yoursite.com">info@yoursite.com</a></p>
+                        <p><span>ایمیل:</span> <a href="{{ site_setting.email}}">vinoil@gmail.com</a></p>
                     </div>
                 </div>
-                <div class="col-md-3 d-flex">
+                <div class="col-md-3 d-flex cart-total mb-3 rtl-text bg-light shadow rounded border border-light">
                     <div class="info bg-white p-4">
-                        <p><span>Website</span> <a href="#">yoursite.com</a></p>
+                        <p><span>وب سایت:</span> <a href="{{ site_setting.site_url}}">{{ site_setting.site_name }}</a></p>
                     </div>
                 </div>
             </div>
             <div class="row block-9">
-                <div class="col-md-6 order-md-last d-flex">
+                <div class="col-md-6 order-md-last d-flex cart-total mb-3 rtl-text bg-light shadow rounded border border-light">
                     <form action="{% url 'contact_us_page' %}" class="bg-white p-5 contact-form" method="post">
                         {% csrf_token %}
                         {% for field in form %}

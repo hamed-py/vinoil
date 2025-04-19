@@ -2,8 +2,8 @@ from django.db.models import Sum
 from django.db.models.aggregates import Count
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from site_module.models import SiteSettings, FooterLinkBox, Slider, Takhfif
 from product_module.models import Product, ProductCategory
+from site_module.models import SiteSettings, FooterLinkBox, Slider, Takhfif
 
 
 class HomeView(TemplateView):
@@ -56,7 +56,5 @@ class AboutView(TemplateView):
         site_setting: SiteSettings = SiteSettings.objects.filter(is_main_settings=True).first()
         context['site_setting'] = site_setting
         return context
-
-
 
 
