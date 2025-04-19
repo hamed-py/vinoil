@@ -7,40 +7,33 @@
 
 
     <!-- بخش اسلایدر -->
-    <section id="home-section" class="slider-container" role="region" aria-label="اسلایدر اصلی">
-        <div class="home-slider owl-carousel">
+    <div class="slider-container">
+        <div class="slides">
             {% for slider in sliders %}
-                <article class="slider-item js-fullheight">
-                    <div class="overlay" aria-hidden="true"></div>
-                    <div class="container-fluid p-0">
-                        <div class="row d-md-flex no-gutters slider-text align-items-center justify-content-end"
-                             data-scrollax-parent="true">
-                            <figure class="one-third order-md-last img-fluid mb-0">
-                                {% thumbnail slider.image "800x670" quality=99 crop="center" as im %}
-                                    <img src="{{ im.url }}" alt="{{ slider.title }}">
-                                {% endthumbnail %}
-                            </figure>
-                            <div class="one-forth d-flex align-items-center ftco-animate"
-                                 data-scrollax=" properties: { translateY: '70%' }">
-                                <div class="text">
-                                    <span class="subheading">#محصولات تازه</span>
-                                    <div class="horizontal">
-                                        <h1 class="mb-4 mt-3">{{ slider.title }}</h1>
-                                        <p class="mb-4">{{ slider.description }}</p>
-                                        <p>
-                                            <a href="{{ slider.url }}" class="btn-custom">
-                                                {{ slider.url_title }}
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <div class="slide-image">
+                            {% thumbnail slider.image "800x670" quality=99 crop="center" as im %}
+                                <img src="{{ im.url }}" alt="{{ slider.title }}">
+                            {% endthumbnail %}
+                        </div>
+                        <div class="slide-text">
+                            <span class="subheading">محصولات تازه#</span>
+                            <h1>{{ slider.title }}</h1>
+                            <p>{{ slider.description }}</p>
+                            <a class="btn-primary" href="{{ slider.url }}">{{ slider.url_title }}</a>
                         </div>
                     </div>
-                </article>
+                </div>
             {% endfor %}
         </div>
-    </section>
+        <button class="nav-btn prev" onclick="changeSlide(-1)">
+            <i class="arrow left"></i>
+        </button>
+        <button class="nav-btn next" onclick="changeSlide(1)">
+            <i class="arrow right"></i>
+        </button>
+    </div>
 
     <section class="search-section">
         <div class="container-fluid px-0">
@@ -79,26 +72,26 @@
         </div>
     </section>
     <!-- بخش لیست دسته‌بندی با تصاویر -->
-   <section class="unique-carousel">
-    <div class="unique-carousel__container">
-        <ul class="unique-carousel__cards">
-            {% for category in categories %}
-                {% if not category.parent %}
-                    <li class="unique-carousel__card">
-                        <a href="{% url 'product_categories_list' cat=category.url_title %}">
-                            <div class="unique-carousel__card-image">
-                                <img src="{{ category.image.url }}"
-                                     srcset="{{ category.image.url }} 1x, {{ category.image_2x.url }} 2x"
-                                     alt="{{ category.title }}">
-                            </div>
-                            <h3 class="unique-carousel__card-title">{{ category.title }}</h3>
-                        </a>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-    </div>
-</section>
+    <section class="unique-carousel">
+        <div class="unique-carousel__container">
+            <ul class="unique-carousel__cards">
+                {% for category in categories %}
+                    {% if not category.parent %}
+                        <li class="unique-carousel__card">
+                            <a href="{% url 'product_categories_list' cat=category.url_title %}">
+                                <div class="unique-carousel__card-image">
+                                    <img src="{{ category.image.url }}"
+                                         srcset="{{ category.image.url }} 1x, {{ category.image_2x.url }} 2x"
+                                         alt="{{ category.title }}">
+                                </div>
+                                <h3 class="unique-carousel__card-title">{{ category.title }}</h3>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
 
     <!-- بخش محصولات پربازدید -->
     <section class="ftco-section bg-light" role="region" aria-label="محصولات پربازدید">
@@ -281,71 +274,71 @@
         </div>
     </section>
 
-    <section class="ftco-gallery" role="region" aria-label="گالری اینستاگرام">
-        <div class="container">
-            <header class="row justify-content-center">
-                <div class="col-md-8 heading-section text-center mb-4 ftco-animate">
-                    <h2 class="mb-4">ما را در اینستاگرام دنبال کنید</h2>
-                    <p>
-                        Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there
-                        live the blind texts. Separated they live in
-                    </p>
-                </div>
-            </header>
-        </div>
-        <div class="container-fluid px-0">
-            <div class="row no-gutters">
-                <div class="col-md-4 col-lg-2 ftco-animate">
-                    <a href="/static/images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center"
-                       style="background-image: url(/static/images/gallery-1.jpg);" aria-label="گالری ۱">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 col-lg-2 ftco-animate">
-                    <a href="/static/images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center"
-                       style="background-image: url(/static/images/gallery-2.jpg);" aria-label="گالری ۲">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 col-lg-2 ftco-animate">
-                    <a href="/static/images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center"
-                       style="background-image: url(/static/images/gallery-3.jpg);" aria-label="گالری ۳">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 col-lg-2 ftco-animate">
-                    <a href="/static/images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center"
-                       style="background-image: url(/static/images/gallery-4.jpg);" aria-label="گالری ۴">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 col-lg-2 ftco-animate">
-                    <a href="/static/images/gallery-5.jpg" class="gallery image-popup img d-flex align-items-center"
-                       style="background-image: url(/static/images/gallery-5.jpg);" aria-label="گالری ۵">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 col-lg-2 ftco-animate">
-                    <a href="/static/images/gallery-6.jpg" class="gallery image-popup img d-flex align-items-center"
-                       style="background-image: url(/static/images/gallery-6.jpg);" aria-label="گالری ۶">
-                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">
-                            <span class="icon-instagram"></span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+{#    <section class="ftco-gallery" role="region" aria-label="گالری اینستاگرام">#}
+{#        <div class="container">#}
+{#            <header class="row justify-content-center">#}
+{#                <div class="col-md-8 heading-section text-center mb-4 ftco-animate">#}
+{#                    <h2 class="mb-4">ما را در اینستاگرام دنبال کنید</h2>#}
+{#                    <p>#}
+{#                        Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there#}
+{#                        live the blind texts. Separated they live in#}
+{#                    </p>#}
+{#                </div>#}
+{#            </header>#}
+{#        </div>#}
+{#        <div class="container-fluid px-0">#}
+{#            <div class="row no-gutters">#}
+{#                <div class="col-md-4 col-lg-2 ftco-animate">#}
+{#                    <a href="/static/images/gallery-1.jpg" class="gallery image-popup img d-flex align-items-center"#}
+{#                       style="background-image: url(/static/images/gallery-1.jpg);" aria-label="گالری ۱">#}
+{#                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">#}
+{#                            <span class="icon-instagram"></span>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#                <div class="col-md-4 col-lg-2 ftco-animate">#}
+{#                    <a href="/static/images/gallery-2.jpg" class="gallery image-popup img d-flex align-items-center"#}
+{#                       style="background-image: url(/static/images/gallery-2.jpg);" aria-label="گالری ۲">#}
+{#                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">#}
+{#                            <span class="icon-instagram"></span>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#                <div class="col-md-4 col-lg-2 ftco-animate">#}
+{#                    <a href="/static/images/gallery-3.jpg" class="gallery image-popup img d-flex align-items-center"#}
+{#                       style="background-image: url(/static/images/gallery-3.jpg);" aria-label="گالری ۳">#}
+{#                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">#}
+{#                            <span class="icon-instagram"></span>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#                <div class="col-md-4 col-lg-2 ftco-animate">#}
+{#                    <a href="/static/images/gallery-4.jpg" class="gallery image-popup img d-flex align-items-center"#}
+{#                       style="background-image: url(/static/images/gallery-4.jpg);" aria-label="گالری ۴">#}
+{#                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">#}
+{#                            <span class="icon-instagram"></span>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#                <div class="col-md-4 col-lg-2 ftco-animate">#}
+{#                    <a href="/static/images/gallery-5.jpg" class="gallery image-popup img d-flex align-items-center"#}
+{#                       style="background-image: url(/static/images/gallery-5.jpg);" aria-label="گالری ۵">#}
+{#                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">#}
+{#                            <span class="icon-instagram"></span>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#                <div class="col-md-4 col-lg-2 ftco-animate">#}
+{#                    <a href="/static/images/gallery-6.jpg" class="gallery image-popup img d-flex align-items-center"#}
+{#                       style="background-image: url(/static/images/gallery-6.jpg);" aria-label="گالری ۶">#}
+{#                        <div class="icon mb-4 d-flex align-items-center justify-content-center" aria-hidden="true">#}
+{#                            <span class="icon-instagram"></span>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </section>#}
 
 
 {% endblock %}

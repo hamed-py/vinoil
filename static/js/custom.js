@@ -190,56 +190,6 @@ function showToast(type, message) {
     // پیاده‌سازی نمایش نوتیفیکیشن
 }
 
-let page = 1;
-let loading = false;
-let hasMore = true;
-
-window.addEventListener('scroll', () => {
-    const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
-
-    if (scrollTop + clientHeight >= scrollHeight - 500 && !loading && hasMore) {
-        loadMoreProducts();
-    }
-});
-
-async function loadMoreProducts() {
-    loading = true;
-    showLoadingIndicator();
-
-    try {
-        page++;
-
-        // حفظ تمام پارامترهای URL + اضافه کردن صفحه جدید
-        const params = new URLSearchParams(window.location.search);
-        params.set('page', page);
-        const url = `?${params.toString()}`;
-
-        const response = await fetch(url, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        });
-
-        if (!response.ok) throw new Error();
-
-        const html = await response.text();
-        if (html.trim() === '') {
-            hasMore = false;
-            hideLoadingIndicator();
-            return;
-        }
-
-        document.querySelector('.product-grid').insertAdjacentHTML('beforeend', html);
-    } catch (error) {
-        hasMore = false;
-        console.error('خطا در بارگیری محصولات');
-        showErrorToast('خطا در دریافت داده‌ها!');
-    } finally {
-        loading = false;
-        hideLoadingIndicator();
-    }
-}
-
 function showLoadingIndicator() {
     // نمایش اسپینر یا متن در حال بارگیری
 }
@@ -327,6 +277,7 @@ $(document).ready(function () {
     });
 
 });
+
 
 
 

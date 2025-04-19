@@ -46,32 +46,34 @@
                         <hr class="sidebar-divider">
                         <!-- محدوده قیمت -->
                         <section class="sidebar-section">
-                            <form method="get" id="price-filter-form">
-                                <div class="filter-box">
-                                    <h4 class="filter-title">فیلتر قیمت</h4>
-                                    <!-- اسلایدر قیمت -->
-                                    <div class="range-slider-container" style="position: relative;">
-                                        <!-- المنت کشویی -->
-                                        <input type="range" class="form-range" id="priceRange" name="priceRange"
-                                               min="0" max="{{ bd_max_price }}" value="{{ start_price }}" step="1000">
-                                        <!-- المنت اختیاری برای نمایش نوار انتخاب -->
-                                        <div id="slider-track"></div>
-                                        <span class="price-display">
-                                              <output id="amount-min">{{ start_price }}</output> تومان
-                                        </span>
-                                    </div>
-                                    <!-- کادر ورودی برای قیمت -->
-                                    <div class="price-inputs">
-                                        <input type="number" id="price-min" name="start_price" placeholder="از" min="0"
-                                               value="{{ start_price }}">
-                                        <input type="number" id="price-max" name="end_price" placeholder="تا" min="0"
-                                               value="{{ end_price }}">
-                                    </div>
-                                    <!-- دکمه اعمال فیلتر -->
-                                    <button type="submit" class="btn btn-primary">اعمال فیلتر</button>
-                                </div>
-                            </form>
-                        </section>
+    <form method="get" id="price-filter-form">
+        <div class="filter-box">
+            <h4 class="filter-title">فیلتر قیمت</h4>
+            <!-- اسلایدر قیمت -->
+            <div class="range-slider-container" style="position: relative;">
+                <!-- المنت کشویی -->
+                <input type="range" class="form-range" id="priceRange" name="priceRange"
+                       min="0" max="{{ bd_max_price }}" value="{{ start_price }}" step="1000">
+                <!-- المنت اختیاری برای نمایش نوار انتخاب -->
+                <div id="slider-track"></div>
+                <span class="price-display">
+                    <output id="amount-min">{{ start_price }}</output> تومان
+                </span>
+            </div>
+            <!-- کادر ورودی برای قیمت -->
+            <div class="price-inputs">
+                <input type="number" id="price-min" name="start_price" placeholder="از" min="0"
+                       value="{{ start_price }}">
+                <input type="number" id="price-max" name="end_price" placeholder="تا" min="0"
+                       value="{{ end_price }}">
+            </div>
+            <!-- دکمه اعمال فیلتر -->
+            <button type="submit" class="btn btn-primary">اعمال فیلتر</button>
+            <!-- دکمه ریست فیلتر -->
+            <button type="reset" class="btn btn-secondary" id="reset-filter">ریست فیلتر</button>
+        </div>
+    </form>
+</section>
 
                     </div>
                 </aside>
