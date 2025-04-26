@@ -41,6 +41,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = 'کاربر'
         verbose_name_plural = 'کاربران'
 
+    @property
+    def avatar_url(self):
+        try:
+            return self.avatar.url if self.avatar else '/static/images/person_1.jpg'
+        except ValueError:
+            return '/static/images/person_1.jpg'
+
 class AuthLog(models.Model):
     EVENT_CHOICES = [
         ('register', 'ثبت‌نام'),
