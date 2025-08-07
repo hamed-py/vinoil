@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . import models
+from .models import Contact_Us
 
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'subject')
@@ -7,4 +7,4 @@ class ContactAdmin(admin.ModelAdmin):
     list_filter = ('name','email',)
 
 
-admin.site.register(models.Contact_Us, ContactAdmin)
+admin.site.register(Contact_Us, ContactAdmin)

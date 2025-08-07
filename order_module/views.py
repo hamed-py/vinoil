@@ -4,7 +4,7 @@ from product_module.models import Product
 from .models import Order, OrderItem
 
 
-# Create your views here.
+
 @login_required(login_url='login_page')
 def add_product_to_order(request: HttpRequest):
     product_id = int(request.GET.get('product_id'))
