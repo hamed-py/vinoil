@@ -107,12 +107,12 @@ class product_detail_view(DetailView):
 @method_decorator(login_required, name='dispatch')
 class add_product_favorate(View):
     def post(self, request):
-        product_id = request.POST.get("product_id")  # مقدار ID را دریافت کنید
+        product_id = request.POST.get("product_id")
         if not product_id:
-            return redirect("some-error-page")  # در صورت نبود مقدار مناسب، هدایت به صفحه خطا
+            return redirect("some-error-page")
 
-        product = get_object_or_404(Product, id=product_id)  # تبدیل ID به شیء مدل
-        request.session["product_favorite"] = product_id  # ذخیره در سشن
+        product = get_object_or_404(Product, id=product_id)
+        request.session["product_favorite"] = product_id
         return redirect(product.get_absolute_url())
 
 
@@ -136,7 +136,7 @@ def product_brands_component(request: HttpRequest):
 
 
 @login_required
-@require_POST  # فقط درخواست‌های POST را بپذیر
+@require_POST
 def add_product_comment(request: HttpRequest):
     product_id = request.POST.get('product_id')
     product_comment = request.POST.get('text')

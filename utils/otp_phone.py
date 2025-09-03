@@ -25,7 +25,5 @@ def is_valid_phone(phone):
     return re.fullmatch(r'^(\+98|0)?9\d{9}$', phone) is not None
 
 def verify_otp_hash(otp_raw, otp_hashed):
-    """
-    مقایسه OTP واردشده با هش ذخیره‌شده در دیتابیس
-    """
+
     return check_password(otp_raw, otp_hashed)
